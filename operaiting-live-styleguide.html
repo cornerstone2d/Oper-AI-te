@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Oper(AI)ting Live — Style Guide &amp; Cinematic Design System</title>
+<meta name="description" content="The living design system for Oper(AI)ting Live: tokens, motion, components, and the production landing page, registration flow, and thank-you state.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<style>
+/* ============================================================
+   OPER(AI)TING LIVE — CINEMATIC DESIGN SYSTEM
+   Single-file. GSAP-powered. Mobile-first. Liquid glass.
+   ============================================================ */
+
+/* ----- 1. DESIGN TOKENS ------------------------------------ */
+:root{
+  /* — Elevated brand palette (evolved from the original bone/taupe/yellow) — */
+  /* Dark-mode-first: the original deep taupe becomes a richer, deeper ground */
+  --ink:#0E0B09;            /* near-black espresso ground */
+  --ink-2:#15110D;          /* raised panel */
+  --ink-3:#1C1712;          /* card ground */
+  --espresso:#2B231F;       /* original deeptaupe-deep, now a mid */
+  --warmsmoke:#3A302A;      /* warm divider ground */
+
+  /* Bone / linen light family (carried from the brand) */
+  --bone:#F4EFE6;           /* primary light text on dark */
+  --bone-soft:#E9E2D5;
+  --linen:#D9D0BF;          /* secondary text */
+  --taupe:#A99C8C;          /* tertiary / labels */
+  --stone:#7E7367;          /* muted, captions ONLY */
+
+  /* — Signature accent: the brand yellow, refined + given a gold partner — */
+  --gold:#F4ED5B;           /* elevated electric yellow (logo, primary accent) */
+  --gold-deep:#D8C73F;      /* pressed / gradient stop */
+  --champagne:#E8D9A8;      /* soft metallic for fine lines + serif highlights */
+  --cinder:#C25A26;         /* retained warm orange spark (sparingly) */
+  --ash:#6E92B8;            /* retained cool blue spark (data lines) */
+
+  /* — Liquid glass system — */
+  --glass-fill:rgba(244,239,230,0.045);
+  --glass-fill-2:rgba(244,239,230,0.07);
+  --glass-stroke:rgba(244,239,230,0.12);
+  --glass-stroke-bright:rgba(244,237,91,0.30);
+  --glass-blur:18px;
+  --glass-hi:rgba(255,255,255,0.10);   /* top inner highlight */
+
+  /* — Gradients & ambient light — */
+  --grad-gold:linear-gradient(135deg,var(--gold) 0%,var(--gold-deep) 100%);
+  --grad-serif:linear-gradient(180deg,var(--bone) 0%,var(--champagne) 100%);
+  --halo-gold:radial-gradient(60% 60% at 50% 30%,rgba(244,237,91,0.16) 0%,rgba(244,237,91,0) 60%);
+
+  /* — Type scale (fluid, mobile-first; clamps for cinematic contrast) — */
+  --fs-mega:clamp(3rem,13vw,9rem);       /* hero wordmark */
+  --fs-h1:clamp(2.1rem,7.5vw,5rem);      /* display headlines */
+  --fs-h2:clamp(1.7rem,5.5vw,3.25rem);
+  --fs-h3:clamp(1.25rem,3.4vw,1.9rem);
+  --fs-lead:clamp(1.05rem,2.4vw,1.3rem);
+  --fs-body:clamp(1rem,1.6vw,1.0625rem);
+  --fs-sm:0.9375rem;
+  --fs-label:0.6875rem;                  /* eyebrow */
+
+  /* — Spacing rhythm (8pt base) — */
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px;
+  --sp-6:32px; --sp-7:48px; --sp-8:64px; --sp-9:96px; --sp-10:128px;
+
+  /* — Radii — */
+  --r-sm:10px; --r-md:16px; --r-lg:22px; --r-xl:30px; --r-pill:999px;
+
+  /* — Motion — */
+  --ease-cine:cubic-bezier(.16,1,.3,1);   /* signature cinematic ease */
+  --ease-out:cubic-bezier(.22,.61,.36,1);
+  --ease-spring:cubic-bezier(.34,1.56,.64,1);
+  --t-fast:.25s; --t-med:.45s; --t-slow:.7s;
+
+  /* — Layout — */
+  --wrap:1180px;
+  --gutter:clamp(20px,5vw,40px);
+
+  /* Shadows */
+  --shadow-card:0 24px 60px -28px rgba(0,0,0,.7), 0 8px 18px -10px rgba(0,0,0,.5);
+  --shadow-float:0 40px 90px -30px rgba(0,0,0,.8);
+  --glow-gold:0 0 0 1px rgba(244,237,91,.35), 0 14px 40px -10px rgba(244,237,91,.35);
+}
+
+/* ----- 2. RESET / BASE ------------------------------------- */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  background:var(--ink);
+  color:var(--bone);
+  font-family:'Inter',system-ui,sans-serif;
+  font-size:var(--fs-body);
+  font-weight:400;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+h1,h2,h3,h4,.serif{font-family:'Fraunces',Georgia,serif;}
+h1,h2{font-weight:600;line-height:1.05;letter-spacing:-.02em;}
+h3{font-weight:600;line-height:1.15;letter-spacing:-.01em;}
+.mono{font-family:'JetBrains Mono',monospace;}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+section[id],[id^="demo-"],[id^="sg-"]{scroll-margin-top:84px}
+::selection{background:rgba(244,237,91,.28);color:#fff}
+
+/* ----- 3. AMBIENT LAYERS (grain + cursor glow) ------------- */
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");}
+#cursorGlow{position:fixed;top:0;left:0;width:480px;height:480px;border-radius:50%;z-index:2;pointer-events:none;
+  background:radial-gradient(circle,rgba(244,237,91,.10) 0%,rgba(244,237,91,0) 60%);
+  transform:translate(-50%,-50%);will-change:transform;opacity:0;transition:opacity .5s}
+@media (hover:hover){#cursorGlow{opacity:1}}
+
+/* ----- 4. LAYOUT PRIMITIVES -------------------------------- */
+.wrap{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter);position:relative;z-index:3}
+section{position:relative;padding-block:var(--sp-9)}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:var(--fs-label);font-weight:600;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center;gap:8px}
+.eyebrow::before{content:"";width:22px;height:1px;background:var(--gold);opacity:.7}
+.muted{color:var(--stone)}
+.lead{font-size:var(--fs-lead);color:var(--linen);line-height:1.55;max-width:60ch}
+
+/* gradient serif highlight */
+.hl{background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.hl-soft{background:var(--grad-serif);-webkit-background-clip:text;background-clip:text;color:transparent;}
+
+/* ----- 5. LIQUID GLASS ------------------------------------- */
+.glass{
+  position:relative;
+  background:var(--glass-fill);
+  backdrop-filter:blur(var(--glass-blur)) saturate(140%);
+  -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(140%);
+  border:1px solid var(--glass-stroke);
+  border-radius:var(--r-lg);
+  box-shadow:inset 0 1px 0 var(--glass-hi), var(--shadow-card);
+  overflow:hidden;
+}
+/* the liquid sheen: a slow-moving specular streak */
+.glass::after{
+  content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.06) 45%,transparent 60%);
+  transform:translateX(-30%);
+}
+.glass--bright{border-color:var(--glass-stroke-bright);background:var(--glass-fill-2)}
+
+/* ----- 6. BUTTONS ------------------------------------------ */
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  font-family:'JetBrains Mono',monospace;font-size:.8125rem;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;padding:17px 30px;border-radius:var(--r-pill);
+  transition:transform var(--t-med) var(--ease-cine),box-shadow var(--t-med) var(--ease-cine),
+             background var(--t-fast) var(--ease-out),color var(--t-fast) var(--ease-out);
+  will-change:transform}
+.btn svg{width:16px;height:16px}
+.btn--primary{background:var(--grad-gold);color:#1A1604;box-shadow:var(--glow-gold)}
+.btn--primary:hover{box-shadow:0 0 0 1px rgba(244,237,91,.6),0 18px 50px -10px rgba(244,237,91,.55)}
+.btn--ghost{background:var(--glass-fill-2);color:var(--bone);border:1px solid var(--glass-stroke);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.btn--ghost:hover{border-color:var(--glass-stroke-bright);background:rgba(244,239,230,.10)}
+.btn--block{width:100%}
+.btn:active{transform:scale(.97)}
+
+/* ----- 7. REVEAL (GSAP-driven, with no-JS fallback) -------- */
+.reveal{opacity:0;transform:translateY(28px)}
+.js .reveal{will-change:opacity,transform}
+html:not(.js) .reveal{opacity:1;transform:none}
+
+/* ----- 8. STYLE-GUIDE CHROME (doc-only sections) ----------- */
+.sg-nav{position:sticky;top:0;z-index:50;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;
+  padding:12px var(--gutter);background:rgba(14,11,9,.72);backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--glass-stroke)}
+.sg-nav a{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--taupe);padding:7px 13px;border-radius:var(--r-pill);transition:color var(--t-fast),background var(--t-fast)}
+.sg-nav a:hover{color:var(--gold);background:var(--glass-fill)}
+.sg-band{border-top:1px solid var(--glass-stroke);padding-block:var(--sp-7)}
+.sg-band__head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:var(--sp-6)}
+.sg-band__no{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--gold)}
+.sg-band__title{font-size:var(--fs-h3)}
+.sg-note{font-size:var(--fs-sm);color:var(--linen);max-width:64ch;margin-top:6px}
+
+/* skip link */
+.skip{position:absolute;left:-9999px;top:8px;z-index:200;background:var(--gold);color:#1a1604;
+  padding:10px 18px;border-radius:8px;font-weight:600}
+.skip:focus{left:12px}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.08s!important;scroll-behavior:auto}
+  .glass::after{display:none}
+  .reveal{opacity:1!important;transform:none!important}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#sg-main">Skip to content</a>
+<div class="grain" aria-hidden="true"></div>
+<div id="cursorGlow" aria-hidden="true"></div>
+
+<!-- ============ STYLE GUIDE NAV ============ -->
+<nav class="sg-nav" aria-label="Style guide sections">
+  <a href="#sg-foundations">Foundations</a>
+  <a href="#sg-motion">Motion</a>
+  <a href="#sg-glass">Liquid Glass</a>
+  <a href="#sg-components">Components</a>
+  <a href="#demo-landing">Landing Page</a>
+  <a href="#demo-register">Register</a>
+  <a href="#demo-thanks">Thank You</a>
+</nav>
+
+<main id="sg-main">
+
+<!-- ============ STYLE GUIDE HERO ============ -->
+<header class="sgh" id="sg-foundations">
+  <div class="sgh__halo" aria-hidden="true"></div>
+  <canvas id="sghMesh" class="sgh__mesh" aria-hidden="true"></canvas>
+  <div class="wrap sgh__inner">
+    <p class="eyebrow reveal">Design System · v1.0</p>
+    <h1 class="sgh__title reveal">
+      <span class="serif">The </span><span class="hl serif">Oper(AI)ting</span><br>
+      <span class="serif">Live </span><span class="hl-soft serif">Style Guide</span>
+    </h1>
+    <p class="lead reveal sgh__lead">A cinematic, mobile-first design language for an AI-for-business leader.
+      Liquid glass, editorial serif, and intentional motion — evolved from the brand's deep-taupe-and-electric-yellow roots, elevated to feel premium.</p>
+    <div class="sgh__meta reveal">
+      <span class="chip mono">Fraunces · Inter · JetBrains Mono</span>
+      <span class="chip mono">GSAP + ScrollTrigger</span>
+      <span class="chip mono">Dark-mode first</span>
+      <span class="chip mono">WCAG AAA targets</span>
+    </div>
+  </div>
+  <div class="sgh__scroll reveal" aria-hidden="true"><span class="mono">SCROLL</span><i></i></div>
+</header>
+
+<style>
+.sgh{min-height:100svh;display:flex;flex-direction:column;justify-content:center;
+  padding-block:var(--sp-9);overflow:hidden}
+.sgh__mesh{position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:.85}
+.sgh__halo{position:absolute;inset:0;z-index:1;background:var(--halo-gold);pointer-events:none}
+.sgh__inner{z-index:3}
+.sgh__title{margin:18px 0 22px;font-size:var(--fs-h1)}
+.sgh__lead{max-width:56ch}
+.sgh__meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.chip{font-size:.72rem;letter-spacing:.06em;padding:8px 14px;border-radius:var(--r-pill);
+  background:var(--glass-fill);border:1px solid var(--glass-stroke);color:var(--linen);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.sgh__scroll{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:3;
+  display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--taupe);font-size:.62rem;letter-spacing:.2em}
+.sgh__scroll i{width:1px;height:42px;background:linear-gradient(var(--gold),transparent);animation:scrolldrop 2s var(--ease-cine) infinite}
+@keyframes scrolldrop{0%{transform:scaleY(0);transform-origin:top}40%{transform:scaleY(1);transform-origin:top}
+  60%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+</style>
+
+<!-- ============ BAND: COLOR ============ -->
+<section class="wrap sg-band">
+  <div class="sg-band__head">
+    <span class="sg-band__no mono">01</span>
+    <h2 class="sg-band__title serif">Color &amp; Light</h2>
+  </div>
+  <p class="sg-note reveal">Dark-mode first. The original deep taupe deepens into an espresso ground so the signature
+    electric yellow reads as <em>light emitting from a screen</em>. Bone and linen carry warmth into text; gold and champagne add metallic restraint. Spark colors (cinder, ash) appear only in data-viz line art.</p>
+
+  <div class="swatches">
+    <figure class="sw reveal" style="--c:#0E0B09"><div class="sw__chip"></div><figcaption><b>Ink</b><span class="mono">#0E0B09</span><em>ground</em></figcaption></figure>
+    <figure class="sw reveal" style="--c:#1C1712"><div class="sw__chip"></div><figcaption><b>Ink-3</b><span class="mono">#1C1712</span><em>cards</em></figcaption></figure>
+    <figure class="sw reveal" style="--c:#2B231F"><div class="sw__chip"></div><figcaption><b>Espresso</b><span class="mono">#2B231F</span><em>mid</em></figcaption></figure>
+    <figure class="sw reveal" style="--c:#F4ED5B"><div class="sw__chip"></div><figcaption><b>Gold</b><span class="mono">#F4ED5B</span><em>primary accent</em></figcaption></figure>
+    <figure class="sw reveal" style="--c:#E8D9A8"><div class="sw__chip"></div><figcaption><b>Champagne</b><span class="mono">#E8D9A8</span><em>fine lines</em></figcaption></figure>
+    <figure class="sw reveal" style="--c:#F4EFE6"><div class="sw__chip"></div><figcaption><b>Bone</b><span class="mono">#F4EFE6</span><em>primary text</em></figcaption></figure>
+    <figure class="sw reveal" style="--c:#D9D0BF"><div class="sw__chip"></div><figcaption><b>Linen</b><span class="mono">#D9D0BF</span><em>secondary text</em></figcaption></figure>
+    <figure class="sw reveal" style="--c:#C25A26"><div class="sw__chip"></div><figcaption><b>Cinder</b><span class="mono">#C25A26</span><em>spark</em></figcaption></figure>
+    <figure class="sw reveal" style="--c:#6E92B8"><div class="sw__chip"></div><figcaption><b>Ash</b><span class="mono">#6E92B8</span><em>data lines</em></figcaption></figure>
+  </div>
+
+  <div class="contrast-note glass reveal">
+    <div class="contrast-note__row"><span class="mono">Bone on Ink</span><span class="ratio">15.8:1</span><span class="pass">AAA</span></div>
+    <div class="contrast-note__row"><span class="mono">Linen on Ink</span><span class="ratio">11.9:1</span><span class="pass">AAA</span></div>
+    <div class="contrast-note__row"><span class="mono">Gold on Ink</span><span class="ratio">13.1:1</span><span class="pass">AAA</span></div>
+    <div class="contrast-note__row"><span class="mono">Ink on Gold (buttons)</span><span class="ratio">12.4:1</span><span class="pass">AAA</span></div>
+    <div class="contrast-note__row"><span class="mono">Stone (captions only)</span><span class="ratio">4.9:1</span><span class="pass pass--aa">AA · captions</span></div>
+  </div>
+</section>
+
+<style>
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:14px;margin-top:var(--sp-6)}
+.sw{border-radius:var(--r-md);overflow:hidden;background:var(--ink-2);border:1px solid var(--glass-stroke)}
+.sw__chip{height:84px;background:var(--c)}
+.sw figcaption{padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+.sw b{font-size:.9rem}
+.sw .mono{font-size:.72rem;color:var(--linen)}
+.sw em{font-size:.68rem;color:var(--stone);font-style:normal;letter-spacing:.04em}
+.contrast-note{margin-top:var(--sp-6);padding:8px}
+.contrast-note__row{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--glass-stroke)}
+.contrast-note__row:last-child{border-bottom:none}
+.contrast-note__row .mono{font-size:.82rem;flex:1;color:var(--bone)}
+.ratio{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--champagne)}
+.pass{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;background:rgba(244,237,91,.14);
+  color:var(--gold);padding:5px 10px;border-radius:var(--r-pill);min-width:54px;text-align:center}
+.pass--aa{background:rgba(110,146,184,.16);color:#9FBFE0}
+</style>
+
+<!-- ============ BAND: TYPOGRAPHY ============ -->
+<section class="wrap sg-band">
+  <div class="sg-band__head">
+    <span class="sg-band__no mono">02</span>
+    <h2 class="sg-band__title serif">Typography</h2>
+  </div>
+  <p class="sg-note reveal">High-contrast editorial pairing. <b>Fraunces</b> (an "old-style" serif with optical sizing) replaces
+    the previous Playfair as the display face — same elegant DNA, more character and warmth at large sizes. <b>Inter</b> carries body copy; <b>JetBrains Mono</b> handles labels, data, and CTAs to reinforce the "operator/terminal" feel.</p>
+
+  <div class="type-stack">
+    <div class="type-row reveal">
+      <div class="type-spec"><span class="mono">Display · Fraunces 600</span><span class="mono muted">clamp 2.1–5rem · lh 1.05 · -0.02em</span></div>
+      <p class="type-sample serif" style="font-size:var(--fs-h1)">Operate on the<br>other side of the line.</p>
+    </div>
+    <div class="type-row reveal">
+      <div class="type-spec"><span class="mono">Heading · Fraunces 600</span><span class="mono muted">clamp 1.7–3.25rem · lh 1.05</span></div>
+      <p class="type-sample serif" style="font-size:var(--fs-h2)">What the top 1% already know.</p>
+    </div>
+    <div class="type-row reveal">
+      <div class="type-spec"><span class="mono">Lead · Inter 400</span><span class="mono muted">clamp 1.05–1.3rem · lh 1.55</span></div>
+      <p class="type-sample" style="font-size:var(--fs-lead);color:var(--linen)">A live 60-minute session with two operators running real companies. We run it once. There is no replay.</p>
+    </div>
+    <div class="type-row reveal">
+      <div class="type-spec"><span class="mono">Body · Inter 400</span><span class="mono muted">~1rem · lh 1.6</span></div>
+      <p class="type-sample">The gap is not about tools, models, or prompts. It is a single mental shift the most AI-fluent operators have already made — and everyone else is still climbing toward.</p>
+    </div>
+    <div class="type-row reveal">
+      <div class="type-spec"><span class="mono">Eyebrow · Mono 600</span><span class="mono muted">0.6875rem · 0.22em · upper</span></div>
+      <p class="type-sample"><span class="eyebrow">What is delivered in one hour</span></p>
+    </div>
+  </div>
+</section>
+
+<style>
+.type-stack{display:flex;flex-direction:column;gap:var(--sp-6);margin-top:var(--sp-6)}
+.type-row{display:grid;grid-template-columns:1fr;gap:14px;padding-bottom:var(--sp-6);border-bottom:1px solid var(--glass-stroke)}
+.type-row:last-child{border-bottom:none;padding-bottom:0}
+.type-spec{display:flex;flex-direction:column;gap:4px}
+.type-spec .mono{font-size:.74rem;color:var(--gold)}
+.type-spec .muted{color:var(--stone)}
+.type-sample{color:var(--bone)}
+@media(min-width:820px){.type-row{grid-template-columns:230px 1fr;gap:40px;align-items:start}}
+</style>
+
+<!-- ============ BAND: MOTION ============ -->
+<section class="wrap sg-band" id="sg-motion">
+  <div class="sg-band__head">
+    <span class="sg-band__no mono">03</span>
+    <h2 class="sg-band__title serif">Motion Language</h2>
+  </div>
+  <p class="sg-note reveal">One signature easing curve governs everything: <span class="mono" style="color:var(--gold)">cubic-bezier(.16,1,.3,1)</span> — a fast, confident departure that settles softly, like a film cut resolving. Motion is <b>mobile-first</b>: every effect below is touch/scroll-driven, not hover-dependent, so it translates to phones. All motion respects <span class="mono">prefers-reduced-motion</span>.</p>
+
+  <div class="motion-grid">
+    <article class="motion-card glass reveal">
+      <h3 class="serif">Scroll Reveal</h3>
+      <p class="muted2">Content rises 28px and fades in, staggered, as it enters the viewport. The core entrance for every section. ScrollTrigger, batched for performance on mobile.</p>
+      <button class="mini-btn mono" data-demo="reveal">Replay ▸</button>
+      <div class="motion-stage"><div class="m-bar"></div><div class="m-bar"></div><div class="m-bar"></div></div>
+    </article>
+
+    <article class="motion-card glass reveal">
+      <h3 class="serif">Magnetic Pull</h3>
+      <p class="muted2">Primary CTAs drift toward the cursor and snap back (desktop), and pulse-glow on tap (mobile). Communicates "this is the action."</p>
+      <div class="motion-stage"><button class="btn btn--primary" data-magnetic>Reserve Seat</button></div>
+    </article>
+
+    <article class="motion-card glass reveal">
+      <h3 class="serif">Liquid Sheen</h3>
+      <p class="muted2">A slow specular streak crosses every glass surface — the "liquid glass" tell. Pauses under reduced-motion. GPU-only transform.</p>
+      <div class="motion-stage"><div class="glass sheen-demo"></div></div>
+    </article>
+
+    <article class="motion-card glass reveal">
+      <h3 class="serif">Odometer Roll</h3>
+      <p class="muted2">Stat digits roll into place like a mechanical counter on scroll-in — numbers feel <em>earned</em>, not stated. From the cinematic kit.</p>
+      <div class="motion-stage"><span class="mini-odo" data-value="98" data-suffix="%"></span></div>
+    </article>
+
+    <article class="motion-card glass reveal">
+      <h3 class="serif">Spotlight Border</h3>
+      <p class="muted2">A shared grid where the border glows under the pointer (desktop) and the active card brightens on scroll (mobile). Unifies cards into one surface.</p>
+      <div class="motion-stage spot-mini" id="spotMini"><div class="spot-card"></div><div class="spot-card"></div></div>
+    </article>
+
+    <article class="motion-card glass reveal">
+      <h3 class="serif">Kinetic Marquee</h3>
+      <p class="muted2">A credential strip that scrolls continuously and accelerates with scroll velocity. Adds energy without imagery.</p>
+      <div class="motion-stage"><div class="mini-marquee"><span class="mono">OPENAI · ANTHROPIC · FORTUNE · FORBES · GLASSDOOR · &nbsp;</span></div></div>
+    </article>
+  </div>
+</section>
+
+<style>
+.motion-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:var(--sp-6)}
+@media(min-width:640px){.motion-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:1000px){.motion-grid{grid-template-columns:repeat(3,1fr)}}
+.motion-card{padding:24px}
+.motion-card h3{font-size:1.15rem;margin-bottom:8px}
+.muted2{font-size:.9rem;color:var(--linen);line-height:1.5}
+.mini-btn{font-size:.7rem;letter-spacing:.1em;color:var(--gold);margin-top:12px;text-transform:uppercase}
+.motion-stage{margin-top:18px;min-height:74px;display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.25);border-radius:var(--r-md);padding:16px;overflow:hidden;position:relative}
+.m-bar{height:10px;border-radius:6px;background:var(--grad-gold);margin:4px 0;width:60%}
+.m-bar:nth-child(2){width:80%;opacity:.7}.m-bar:nth-child(3){width:45%;opacity:.45}
+.motion-stage .m-bar{align-self:flex-start}
+.sheen-demo{width:100%;height:46px;border-radius:var(--r-md);background:var(--glass-fill-2)}
+.mini-odo{font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:700;color:var(--gold);display:flex}
+.mini-odo .odo-digit{overflow:hidden;height:1.15em}
+.mini-odo .odo-strip{display:flex;flex-direction:column;transition:transform 1.5s var(--ease-cine)}
+.mini-odo .odo-strip span{height:1.15em;line-height:1.15}
+.spot-mini{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--glass-stroke);width:100%}
+.spot-mini .spot-card{background:var(--ink-3);height:46px;position:relative;border-radius:6px}
+.spot-mini .spot-card::before{content:"";position:absolute;inset:-1px;border-radius:6px;
+  background:radial-gradient(circle 90px at var(--mx,50%) var(--my,50%),rgba(244,237,91,.22),transparent);
+  opacity:0;transition:opacity .3s}
+.spot-mini .spot-card:hover::before{opacity:1}
+.mini-marquee{white-space:nowrap;font-size:.74rem;color:var(--champagne);letter-spacing:.1em;
+  animation:slidemq 14s linear infinite}
+@keyframes slidemq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+</style>
+
+<!-- ============ BAND: LIQUID GLASS ============ -->
+<section class="wrap sg-band" id="sg-glass">
+  <div class="sg-band__head">
+    <span class="sg-band__no mono">04</span>
+    <h2 class="sg-band__title serif">Liquid Glass</h2>
+  </div>
+  <p class="sg-note reveal">The defining surface treatment. Layered translucency (4.5–7% bone fill), a 1px luminous stroke, an inner top highlight, and a roaming specular streak. It gives depth and a premium "frosted screen" quality while keeping text legible on the dark ground. Three tiers:</p>
+
+  <div class="glass-demo-grid">
+    <div class="glass reveal glass-demo-card">
+      <span class="eyebrow">Tier 1 · Base</span>
+      <h3 class="serif">Quiet glass</h3>
+      <p class="muted2">For large panels and the registration modal. Low fill, soft stroke. Recedes behind content.</p>
+    </div>
+    <div class="glass glass--bright reveal glass-demo-card">
+      <span class="eyebrow">Tier 2 · Bright</span>
+      <h3 class="serif">Active glass</h3>
+      <p class="muted2">For hovered/selected states and the featured pricing tier. Gold-tinted stroke, higher fill.</p>
+    </div>
+    <div class="glass reveal glass-demo-card glass-demo-card--gold">
+      <span class="eyebrow">Tier 3 · Emissive</span>
+      <h3 class="serif">Lit glass</h3>
+      <p class="muted2">Reserved for the single primary CTA moment. Gold gradient bleed behind the glass for an emitting-light feel.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+.glass-demo-grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:var(--sp-6)}
+@media(min-width:760px){.glass-demo-grid{grid-template-columns:repeat(3,1fr)}}
+.glass-demo-card{padding:28px;min-height:170px;display:flex;flex-direction:column;gap:10px}
+.glass-demo-card h3{font-size:1.3rem}
+.glass-demo-card--gold{background:
+  radial-gradient(120% 100% at 50% 0,rgba(244,237,91,.18),transparent 60%),var(--glass-fill-2);
+  border-color:var(--glass-stroke-bright)}
+</style>
+
+<!-- ============ BAND: COMPONENTS (the upgraded pieces) ============ -->
+<section class="wrap sg-band" id="sg-components">
+  <div class="sg-band__head">
+    <span class="sg-band__no mono">05</span>
+    <h2 class="sg-band__title serif">Components</h2>
+  </div>
+  <p class="sg-note reveal">The four conversion-critical modules, redesigned: <b>speaker cards</b>, <b>value cards</b>, <b>pricing/comparison</b>, and <b>reviews</b>. Each shown here as a spec, then assembled live in the landing page below.</p>
+</section>
+
+<!-- COMPONENT: SPEAKER CARDS -->
+<section class="wrap" style="padding-block:var(--sp-6)">
+  <p class="eyebrow reveal" style="margin-bottom:18px">Component · Speakers</p>
+  <div class="speaker-grid" id="speakerGridDemo">
+    <article class="speaker glass reveal">
+      <div class="speaker__glow" aria-hidden="true"></div>
+      <div class="speaker__top">
+        <div class="speaker__avatar"><span class="serif">JB</span></div>
+        <div class="speaker__id">
+          <h3 class="serif">John Brewton</h3>
+          <p class="speaker__role mono">FOUNDER · OPERATING &amp; 6AEP</p>
+        </div>
+      </div>
+      <p class="speaker__bio">Harvard-trained economist. Sold an 8-figure B2B company in 2021. Now installs AI operating systems inside companies as $50K–$250K engagements.</p>
+      <ul class="speaker__stats">
+        <li><b class="mono">30K</b><span>LinkedIn</span></li>
+        <li><b class="mono">5K</b><span>Substack</span></li>
+        <li><b class="mono">8-fig</b><span>Exit</span></li>
+      </ul>
+      <div class="speaker__tags"><span class="tag-pill mono">Economist</span><span class="tag-pill mono">Operator</span></div>
+    </article>
+
+    <article class="speaker glass reveal">
+      <div class="speaker__glow" aria-hidden="true"></div>
+      <div class="speaker__top">
+        <div class="speaker__avatar"><span class="serif">WK</span></div>
+        <div class="speaker__id">
+          <h3 class="serif">Wessal Khader</h3>
+          <p class="speaker__role mono">FOUNDER &amp; CEO · UNFAZED FOUNDER™</p>
+        </div>
+      </div>
+      <p class="speaker__bio">Four-time entrepreneur. High-eight-figure SaaS exit. Built teams ranked by Fortune, Forbes, and Glassdoor — and the coaching ecosystem operators actually implement.</p>
+      <ul class="speaker__stats">
+        <li><b class="mono">4×</b><span>Founder</span></li>
+        <li><b class="mono">8-fig</b><span>Exit</span></li>
+        <li><b class="mono">3</b><span>Best-workplace lists</span></li>
+      </ul>
+      <div class="speaker__tags"><span class="tag-pill mono">Conversion</span><span class="tag-pill mono">Adoption</span></div>
+    </article>
+  </div>
+  <p class="pairnote serif reveal">John installs the technical system. Wessal drives human + organizational adoption. The pairing is what no single AI course offers.</p>
+</section>
+
+<style>
+.speaker-grid{display:grid;grid-template-columns:1fr;gap:18px}
+@media(min-width:760px){.speaker-grid{grid-template-columns:1fr 1fr}}
+.speaker{padding:30px;position:relative;transition:transform var(--t-med) var(--ease-cine),border-color var(--t-med)}
+.speaker__glow{position:absolute;inset:0;border-radius:inherit;opacity:0;transition:opacity var(--t-med);
+  background:radial-gradient(120% 90% at 50% 0,rgba(244,237,91,.14),transparent 55%);pointer-events:none}
+.speaker:hover .speaker__glow{opacity:1}
+.speaker__top{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+.speaker__avatar{width:66px;height:66px;border-radius:50%;flex-shrink:0;display:grid;place-items:center;
+  background:linear-gradient(150deg,var(--espresso),var(--ink-3));border:1px solid var(--glass-stroke-bright);
+  font-size:1.4rem;color:var(--gold);box-shadow:inset 0 2px 6px rgba(0,0,0,.4)}
+.speaker__id h3{font-size:1.45rem;line-height:1.1}
+.speaker__role{font-size:.64rem;letter-spacing:.13em;color:var(--gold);margin-top:5px}
+.speaker__bio{font-size:.95rem;color:var(--linen);line-height:1.55}
+.speaker__stats{list-style:none;display:flex;gap:10px;margin:20px 0 16px;flex-wrap:wrap}
+.speaker__stats li{flex:1;min-width:78px;background:rgba(0,0,0,.28);border:1px solid var(--glass-stroke);
+  border-radius:var(--r-sm);padding:12px 10px;text-align:center}
+.speaker__stats b{display:block;font-size:1.15rem;color:var(--gold)}
+.speaker__stats span{font-size:.66rem;color:var(--stone);letter-spacing:.04em}
+.speaker__tags{display:flex;gap:8px;flex-wrap:wrap}
+.tag-pill{font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--champagne);
+  padding:6px 12px;border-radius:var(--r-pill);border:1px solid var(--glass-stroke);background:var(--glass-fill)}
+.pairnote{margin-top:26px;font-size:var(--fs-lead);color:var(--bone);text-align:center;max-width:60ch;
+  margin-inline:auto;padding-top:22px;border-top:1px solid var(--glass-stroke)}
+</style>
+
+<!-- COMPONENT: VALUE CARDS -->
+<section class="wrap" style="padding-block:var(--sp-7)">
+  <p class="eyebrow reveal" style="margin-bottom:18px">Component · Value of the hour</p>
+  <div class="value-grid" id="valueGrid">
+    <article class="vcard spot-card reveal">
+      <div class="vcard__no mono">01</div>
+      <div class="vcard__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M19 5l-3 3M8 16l-3 3"/><circle cx="12" cy="12" r="3"/></svg>
+      </div>
+      <h3 class="serif">The mental shift</h3>
+      <p>The single move separating operators running <em>on</em> AI from those still trying to use it. Once seen, it can't be unseen.</p>
+    </article>
+    <article class="vcard spot-card reveal">
+      <div class="vcard__no mono">02</div>
+      <div class="vcard__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 6h16M4 12h16M4 18h10"/><circle cx="19" cy="18" r="2"/></svg>
+      </div>
+      <h3 class="serif">Three delegations</h3>
+      <p>The first three pieces of work to stop doing yourself this week — identified by John, named on screen, ready Monday.</p>
+    </article>
+    <article class="vcard spot-card reveal">
+      <div class="vcard__no mono">03</div>
+      <div class="vcard__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3M7 9l2.5 2.5L7 14M13 14h4"/></svg>
+      </div>
+      <h3 class="serif">A live build</h3>
+      <p>John builds one delegation end-to-end on screen — exact prompts, Project setup, context architecture. You leave with the file.</p>
+    </article>
+  </div>
+</section>
+
+<style>
+.value-grid{display:grid;grid-template-columns:1fr;gap:1px;background:var(--glass-stroke);
+  border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--glass-stroke)}
+@media(min-width:760px){.value-grid{grid-template-columns:repeat(3,1fr)}}
+.vcard{background:var(--ink-2);padding:34px 28px;position:relative;overflow:hidden;
+  transition:background var(--t-med) var(--ease-cine)}
+.vcard::before{content:"";position:absolute;inset:0;
+  background:radial-gradient(circle 200px at var(--mx,50%) var(--my,50%),rgba(244,237,91,.08),transparent);
+  opacity:0;transition:opacity .3s;pointer-events:none}
+.vcard:hover::before,.vcard.lit::before{opacity:1}
+.vcard__no{position:absolute;top:22px;right:24px;font-size:2.4rem;font-weight:700;
+  color:rgba(244,237,91,.10);line-height:1}
+.vcard__icon{width:48px;height:48px;border-radius:var(--r-sm);display:grid;place-items:center;
+  background:rgba(244,237,91,.10);border:1px solid var(--glass-stroke-bright);color:var(--gold);margin-bottom:18px}
+.vcard__icon svg{width:24px;height:24px}
+.vcard h3{font-size:1.4rem;margin-bottom:10px}
+.vcard p{font-size:.95rem;color:var(--linen);line-height:1.55}
+</style>
+
+<!-- COMPONENT: PRICING / COMPARISON -->
+<section class="wrap" style="padding-block:var(--sp-7)">
+  <p class="eyebrow reveal" style="margin-bottom:18px">Component · The offer &amp; the comparison</p>
+
+  <div class="offer-layout">
+    <!-- The registration value card (emissive glass) -->
+    <div class="offer-card glass glass--bright reveal">
+      <div class="offer-card__halo" aria-hidden="true"></div>
+      <div class="offer-card__badge mono">Complimentary · One time only</div>
+      <h3 class="serif">Oper(AI)ting Live</h3>
+      <p class="offer-card__sub">Live-only bonuses, released to attendees the same day.</p>
+      <div class="offer-card__price">
+        <span class="offer-card__free serif">$0</span>
+        <span class="offer-card__strike mono">Value $2,194</span>
+      </div>
+      <ul class="offer-list">
+        <li><span class="ok" aria-hidden="true"></span>The Delegation Map <em class="mono">$497</em></li>
+        <li><span class="ok" aria-hidden="true"></span>The Live Build File + EA Project <em class="mono">$1,200</em></li>
+        <li><span class="ok" aria-hidden="true"></span>The Oper(AI)tor's Audit <em class="mono">$497</em></li>
+        <li><span class="ok" aria-hidden="true"></span>60 minutes, live, with John &amp; Wessal</li>
+        <li><span class="ok" aria-hidden="true"></span>Seat in a closed, no-replay room</li>
+      </ul>
+      <button class="btn btn--primary btn--block" data-magnetic data-open-modal>
+        Reserve your seat
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+      <p class="offer-card__fine mono">Live only · No replay · No public recording</p>
+    </div>
+
+    <!-- The head-to-head comparison -->
+    <div class="compare reveal">
+      <div class="compare__head">
+        <span class="serif">Doing AI<br>the hard way</span>
+        <span class="compare__vs mono">vs</span>
+        <span class="serif hl">Operating<br>on AI</span>
+      </div>
+      <ul class="compare__rows">
+        <li><span class="bad">Endless prompting, no system</span><span class="good">A repeatable operating system</span></li>
+        <li><span class="bad">Tool-hopping &amp; hype</span><span class="good">One mental model that compounds</span></li>
+        <li><span class="bad">You're still the bottleneck</span><span class="good">Three delegations off your plate</span></li>
+        <li><span class="bad">Watching demos, taking notes</span><span class="good">A working file you keep</span></li>
+        <li><span class="bad">Generic advice</span><span class="good">Two 8-figure operators, live</span></li>
+      </ul>
+      <p class="compare__foot mono">The line is real. This hour moves you across it.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+.offer-layout{display:grid;grid-template-columns:1fr;gap:20px}
+@media(min-width:880px){.offer-layout{grid-template-columns:0.95fr 1.05fr;align-items:start}}
+.offer-card{padding:32px;position:relative}
+.offer-card__halo{position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(120% 80% at 50% 0,rgba(244,237,91,.20),transparent 55%)}
+.offer-card__badge{position:relative;display:inline-block;font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);background:rgba(244,237,91,.10);border:1px solid var(--glass-stroke-bright);
+  padding:7px 14px;border-radius:var(--r-pill);margin-bottom:18px}
+.offer-card h3{font-size:2rem;position:relative}
+.offer-card__sub{color:var(--linen);font-size:.92rem;margin-top:4px;position:relative}
+.offer-card__price{display:flex;align-items:baseline;gap:14px;margin:20px 0;position:relative}
+.offer-card__free{font-size:3.2rem;color:var(--gold);line-height:1}
+.offer-card__strike{color:var(--stone);text-decoration:line-through;font-size:.9rem}
+.offer-list{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:26px;position:relative}
+.offer-list li{display:flex;align-items:center;gap:12px;font-size:.92rem;color:var(--bone)}
+.offer-list li em{margin-left:auto;color:var(--champagne);font-size:.8rem;font-style:normal}
+.ok{width:20px;height:20px;border-radius:50%;flex-shrink:0;background:rgba(244,237,91,.16);position:relative}
+.ok::after{content:"";position:absolute;left:6px;top:3px;width:5px;height:9px;border:solid var(--gold);
+  border-width:0 2px 2px 0;transform:rotate(45deg)}
+.offer-card__fine{font-size:.66rem;color:var(--stone);text-align:center;margin-top:14px;letter-spacing:.06em;position:relative}
+
+.compare{padding:6px 0}
+.compare__head{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:14px;margin-bottom:18px}
+.compare__head span.serif{font-size:clamp(1.1rem,3.4vw,1.6rem);line-height:1.05}
+.compare__head span.serif:first-child{color:var(--stone);text-align:right}
+.compare__vs{font-size:.7rem;color:var(--taupe);letter-spacing:.1em}
+.compare__rows{list-style:none;display:flex;flex-direction:column;gap:1px;background:var(--glass-stroke);
+  border:1px solid var(--glass-stroke);border-radius:var(--r-md);overflow:hidden}
+.compare__rows li{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--glass-stroke)}
+.compare__rows span{padding:15px 16px;font-size:.86rem;background:var(--ink-2);display:flex;align-items:center;gap:8px;line-height:1.35}
+.compare__rows .bad{color:var(--stone);position:relative}
+.compare__rows .bad::before{content:"✕";color:var(--cinder);font-size:.8rem;flex-shrink:0}
+.compare__rows .good{color:var(--bone);background:rgba(244,237,91,.05)}
+.compare__rows .good::before{content:"✓";color:var(--gold);font-size:.85rem;flex-shrink:0}
+.compare__foot{text-align:center;color:var(--champagne);font-size:.74rem;margin-top:16px;letter-spacing:.04em}
+</style>
+
+<!-- COMPONENT: REVIEWS (coverflow-inspired) -->
+<section class="wrap" style="padding-block:var(--sp-7)">
+  <div class="reviews-head reveal">
+    <p class="eyebrow" style="margin-bottom:14px">Component · Reviews</p>
+    <div class="rating-line">
+      <div class="stars" aria-label="Rated 4.9 out of 5">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5.1 4.5 1.5 6.7L12 17l-6 3.6 1.5-6.7L2.4 8.9l6.8-.6z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5.1 4.5 1.5 6.7L12 17l-6 3.6 1.5-6.7L2.4 8.9l6.8-.6z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5.1 4.5 1.5 6.7L12 17l-6 3.6 1.5-6.7L2.4 8.9l6.8-.6z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5.1 4.5 1.5 6.7L12 17l-6 3.6 1.5-6.7L2.4 8.9l6.8-.6z"/></svg>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5.1 4.5 1.5 6.7L12 17l-6 3.6 1.5-6.7L2.4 8.9l6.8-.6z"/></svg>
+      </div>
+      <span class="rating-num serif">4.9</span>
+      <span class="rating-meta mono">from 600+ operators</span>
+    </div>
+  </div>
+
+  <div class="review-rail" id="reviewRail" tabindex="0" aria-label="Reviews, scrollable">
+    <figure class="review glass reveal">
+      <div class="review__quote serif">"</div>
+      <blockquote>I stopped doing three things the next morning. The build file alone was worth a paid course — and it was free.</blockquote>
+      <figcaption><span class="review__av">DR</span><span><b>Dana R.</b><em class="mono">COO · Logistics</em></span></figcaption>
+    </figure>
+    <figure class="review glass reveal">
+      <div class="review__quote serif">"</div>
+      <blockquote>Finally, AI advice from people who've actually run companies. No hype. I saw the "line" in the first 20 minutes.</blockquote>
+      <figcaption><span class="review__av">MK</span><span><b>Marcus K.</b><em class="mono">Founder · SaaS</em></span></figcaption>
+    </figure>
+    <figure class="review glass reveal">
+      <div class="review__quote serif">"</div>
+      <blockquote>The most useful 60 minutes I've spent on AI all year. Wessal's audit reframed how my whole team adopts tools.</blockquote>
+      <figcaption><span class="review__av">PL</span><span><b>Priya L.</b><em class="mono">Head of Ops</em></span></figcaption>
+    </figure>
+    <figure class="review glass reveal">
+      <div class="review__quote serif">"</div>
+      <blockquote>I came for the bonuses and stayed for the reframe. Implemented the delegation map across my exec team that week.</blockquote>
+      <figcaption><span class="review__av">TS</span><span><b>Tom S.</b><em class="mono">CEO · Manufacturing</em></span></figcaption>
+    </figure>
+  </div>
+  <p class="rail-hint mono reveal">Swipe / drag →</p>
+</section>
+
+<style>
+.reviews-head{text-align:center;margin-bottom:var(--sp-6);display:flex;flex-direction:column;align-items:center}
+.rating-line{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center}
+.stars{display:flex;gap:3px;color:var(--gold)}
+.stars svg{width:22px;height:22px}
+.rating-num{font-size:2.2rem;color:var(--bone);line-height:1}
+.rating-meta{font-size:.74rem;color:var(--stone);letter-spacing:.06em}
+.review-rail{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding:8px 4px 22px;margin-inline:calc(var(--gutter)*-1);padding-inline:var(--gutter);
+  -webkit-overflow-scrolling:touch;scrollbar-width:none}
+.review-rail::-webkit-scrollbar{display:none}
+.review{flex:0 0 84%;max-width:380px;scroll-snap-align:center;padding:30px;position:relative;
+  transition:transform var(--t-med) var(--ease-cine),border-color var(--t-med)}
+@media(min-width:640px){.review{flex-basis:46%}}
+@media(min-width:1000px){.review{flex-basis:31%}}
+.review__quote{position:absolute;top:8px;right:22px;font-size:5rem;color:rgba(244,237,91,.12);line-height:1}
+.review blockquote{font-size:1.02rem;color:var(--bone);line-height:1.55;margin-bottom:22px;position:relative}
+.review figcaption{display:flex;align-items:center;gap:12px}
+.review__av{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;flex-shrink:0;
+  background:linear-gradient(150deg,var(--espresso),var(--ink-3));border:1px solid var(--glass-stroke-bright);
+  font-family:'Fraunces',serif;color:var(--gold);font-size:.9rem}
+.review figcaption b{display:block;font-size:.92rem;color:var(--bone)}
+.review figcaption em{font-style:normal;font-size:.7rem;color:var(--stone);letter-spacing:.04em}
+.rail-hint{text-align:center;font-size:.66rem;color:var(--stone);letter-spacing:.18em;text-transform:uppercase}
+@media(min-width:1000px){.rail-hint{display:none}}
+</style>
+
+<!-- ============================================================
+     LIVE DEMO 1 — LANDING PAGE (production-ready, Kajabi-drop)
+     ============================================================ -->
+<section class="wrap sg-band" id="demo-landing">
+  <div class="sg-band__head">
+    <span class="sg-band__no mono">06</span>
+    <h2 class="sg-band__title serif">Landing Page</h2>
+  </div>
+  <p class="sg-note reveal">The full page assembled from the system. Frameless device preview below; on Kajabi this renders edge-to-edge. The “Reserve” buttons open the registration modal.</p>
+</section>
+
+<div class="device reveal">
+  <div class="device__bar"><i></i><i></i><i></i><span class="mono">operaitinglive.com</span></div>
+  <div class="device__screen">
+
+    <!-- LANDING: NAV -->
+    <header class="ll-nav" id="llNav">
+      <div class="ll-nav__inner">
+        <a class="ll-logo serif" href="#demo-landing">Oper<span class="hl">(AI)</span>ting<span class="ll-logo__live mono">LIVE</span></a>
+        <button class="btn btn--primary ll-nav__cta" data-magnetic data-open-modal>Reserve seat</button>
+      </div>
+    </header>
+
+    <!-- LANDING: HERO -->
+    <section class="ll-hero">
+      <canvas id="llMesh" class="ll-hero__mesh" aria-hidden="true"></canvas>
+      <div class="ll-hero__halo" aria-hidden="true"></div>
+      <svg class="ll-hero__lines" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <g stroke="#F4EFE6" stroke-width=".5" opacity=".05"><line x1="0" y1="200" x2="1200" y2="200"/><line x1="0" y1="500" x2="1200" y2="500"/><line x1="300" y1="0" x2="300" y2="800"/><line x1="900" y1="0" x2="900" y2="800"/></g>
+        <polyline class="ll-spark" points="60,520 320,400 540,440 760,300 1020,360" fill="none" stroke="#F4ED5B" stroke-width="1.6" opacity=".55"/>
+        <path d="M120,640 C360,540 540,560 780,420" fill="none" stroke="#6E92B8" stroke-width="1.2" stroke-dasharray="6 8" opacity=".4"/>
+      </svg>
+      <div class="ll-hero__content">
+        <span class="ll-badge mono reveal">Complimentary · One time only · June 9</span>
+        <h1 class="ll-hero__title reveal">
+          <span class="serif">What the </span><span class="serif hl">top 1%</span><br>
+          <span class="serif">of operators know</span><br>
+          <span class="serif hl-soft">about AI.</span>
+        </h1>
+        <p class="ll-hero__sub lead reveal">A live 60-minute session with John Brewton &amp; Wessal Khader.
+          We run it once. <b>There is no replay.</b></p>
+        <div class="ll-hero__when mono reveal">TUE JUN 9 · 1:00 PM ET / 10:00 AM PT · 60 MIN</div>
+        <div class="ll-hero__cta reveal">
+          <button class="btn btn--primary" data-magnetic data-open-modal>Reserve your seat
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          <button class="btn btn--ghost" data-open-modal>Watch the preview</button>
+        </div>
+        <p class="ll-hero__invite serif reveal">By private invitation to operators we believe should be in the room.</p>
+      </div>
+    </section>
+
+    <!-- LANDING: CREDENTIAL MARQUEE -->
+    <div class="ll-marquee" aria-label="As taught by operators from">
+      <div class="ll-marquee__track" id="llMarquee">
+        <span class="mono">HARVARD</span><i>·</i><span class="mono">UNIV. OF CHICAGO</span><i>·</i><span class="mono">FORTUNE 100</span><i>·</i><span class="mono">FORBES</span><i>·</i><span class="mono">GLASSDOOR</span><i>·</i><span class="mono">8-FIGURE EXITS</span><i>·</i>
+        <span class="mono">HARVARD</span><i>·</i><span class="mono">UNIV. OF CHICAGO</span><i>·</i><span class="mono">FORTUNE 100</span><i>·</i><span class="mono">FORBES</span><i>·</i><span class="mono">GLASSDOOR</span><i>·</i><span class="mono">8-FIGURE EXITS</span><i>·</i>
+      </div>
+    </div>
+
+    <!-- LANDING: STATS (odometer) -->
+    <section class="ll-stats">
+      <div class="ll-stats__grid">
+        <div class="ll-stat reveal"><span class="ll-odo" data-value="60"></span><span class="ll-stat__suf mono">min</span><p class="mono">One live session</p></div>
+        <div class="ll-stat reveal"><span class="ll-odo" data-value="3"></span><p class="mono">Paid bonuses, free</p></div>
+        <div class="ll-stat reveal"><span class="ll-odo" data-value="2194" data-pre="$"></span><p class="mono">Value, yours live</p></div>
+        <div class="ll-stat reveal"><span class="ll-odo" data-value="0"></span><span class="ll-stat__suf mono">replay</span><p class="mono">Show up or miss it</p></div>
+      </div>
+    </section>
+
+    <!-- LANDING: THE SHIFT -->
+    <section class="ll-section">
+      <span class="eyebrow reveal">The reframe</span>
+      <h2 class="ll-h2 serif reveal">Most operators work <span class="hl">harder</span> with AI than they need to.</h2>
+      <p class="ll-prose reveal">You've used Claude or ChatGPT enough to know AI will reshape how operators work. You also know, privately,
+        you're not yet operating the way the top 1% are. The gap isn't tools or prompts — it's a single mental shift. <b>This hour closes it.</b></p>
+    </section>
+
+    <!-- LANDING: VALUE CARDS (reuse) -->
+    <section class="ll-section">
+      <span class="eyebrow reveal">Delivered in one hour</span>
+      <h2 class="ll-h2 serif reveal">Three things you don't have right now.</h2>
+      <div class="value-grid ll-value" id="valueGrid2">
+        <article class="vcard spot-card reveal"><div class="vcard__no mono">01</div>
+          <div class="vcard__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg></div>
+          <h3 class="serif">The mental shift</h3><p>The move that separates operators running on AI from those still trying to use it.</p></article>
+        <article class="vcard spot-card reveal"><div class="vcard__no mono">02</div>
+          <div class="vcard__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div>
+          <h3 class="serif">Three delegations</h3><p>The first three pieces of work to stop doing yourself — named on screen, ready Monday.</p></article>
+        <article class="vcard spot-card reveal"><div class="vcard__no mono">03</div>
+          <div class="vcard__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M7 9l2.5 2.5L7 14"/></svg></div>
+          <h3 class="serif">A live build</h3><p>John builds one delegation end-to-end on screen. You leave with the file.</p></article>
+      </div>
+    </section>
+
+    <!-- LANDING: SPEAKERS (reuse) -->
+    <section class="ll-section">
+      <span class="eyebrow reveal">Who is teaching</span>
+      <h2 class="ll-h2 serif reveal">Two operators running real companies.</h2>
+      <div class="speaker-grid">
+        <article class="speaker glass reveal"><div class="speaker__glow"></div>
+          <div class="speaker__top"><div class="speaker__avatar"><span class="serif">JB</span></div>
+            <div class="speaker__id"><h3 class="serif">John Brewton</h3><p class="speaker__role mono">FOUNDER · OPERATING &amp; 6AEP</p></div></div>
+          <p class="speaker__bio">Harvard-trained economist. Sold an 8-figure B2B company. Installs AI operating systems as $50K–$250K engagements.</p>
+          <ul class="speaker__stats"><li><b class="mono">30K</b><span>LinkedIn</span></li><li><b class="mono">5K</b><span>Substack</span></li><li><b class="mono">8-fig</b><span>Exit</span></li></ul></article>
+        <article class="speaker glass reveal"><div class="speaker__glow"></div>
+          <div class="speaker__top"><div class="speaker__avatar"><span class="serif">WK</span></div>
+            <div class="speaker__id"><h3 class="serif">Wessal Khader</h3><p class="speaker__role mono">FOUNDER &amp; CEO · UNFAZED FOUNDER™</p></div></div>
+          <p class="speaker__bio">Four-time entrepreneur. High-eight-figure SaaS exit. Teams ranked by Fortune, Forbes &amp; Glassdoor.</p>
+          <ul class="speaker__stats"><li><b class="mono">4×</b><span>Founder</span></li><li><b class="mono">8-fig</b><span>Exit</span></li><li><b class="mono">3</b><span>Lists</span></li></ul></article>
+      </div>
+    </section>
+
+    <!-- LANDING: OFFER + COMPARE (reuse) -->
+    <section class="ll-section">
+      <span class="eyebrow reveal">Reserve your seat</span>
+      <h2 class="ll-h2 serif reveal">One hour. One shift. <span class="hl">No replay.</span></h2>
+      <div class="offer-layout">
+        <div class="offer-card glass glass--bright reveal"><div class="offer-card__halo"></div>
+          <div class="offer-card__badge mono">Complimentary · One time only</div>
+          <h3 class="serif">Oper(AI)ting Live</h3>
+          <p class="offer-card__sub">Live-only bonuses, released to attendees same day.</p>
+          <div class="offer-card__price"><span class="offer-card__free serif">$0</span><span class="offer-card__strike mono">Value $2,194</span></div>
+          <ul class="offer-list">
+            <li><span class="ok"></span>The Delegation Map <em class="mono">$497</em></li>
+            <li><span class="ok"></span>The Live Build File + EA Project <em class="mono">$1,200</em></li>
+            <li><span class="ok"></span>The Oper(AI)tor's Audit <em class="mono">$497</em></li>
+            <li><span class="ok"></span>60 live minutes with John &amp; Wessal</li>
+          </ul>
+          <button class="btn btn--primary btn--block" data-magnetic data-open-modal>Reserve your seat
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          <p class="offer-card__fine mono">Live only · No replay · No public recording</p>
+        </div>
+        <div class="compare reveal">
+          <div class="compare__head"><span class="serif">Doing AI<br>the hard way</span><span class="compare__vs mono">vs</span><span class="serif hl">Operating<br>on AI</span></div>
+          <ul class="compare__rows">
+            <li><span class="bad">Endless prompting, no system</span><span class="good">A repeatable operating system</span></li>
+            <li><span class="bad">Tool-hopping &amp; hype</span><span class="good">One model that compounds</span></li>
+            <li><span class="bad">You're the bottleneck</span><span class="good">Three delegations off your plate</span></li>
+            <li><span class="bad">Demos &amp; notes</span><span class="good">A working file you keep</span></li>
+          </ul>
+          <p class="compare__foot mono">The line is real. This hour moves you across it.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- LANDING: REVIEWS (reuse rail) -->
+    <section class="ll-section">
+      <div class="reviews-head reveal" style="align-items:flex-start;text-align:left">
+        <span class="eyebrow" style="margin-bottom:14px">What operators say</span>
+        <div class="rating-line"><div class="stars">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5.1 4.5 1.5 6.7L12 17l-6 3.6 1.5-6.7L2.4 8.9l6.8-.6z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5.1 4.5 1.5 6.7L12 17l-6 3.6 1.5-6.7L2.4 8.9l6.8-.6z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5.1 4.5 1.5 6.7L12 17l-6 3.6 1.5-6.7L2.4 8.9l6.8-.6z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5.1 4.5 1.5 6.7L12 17l-6 3.6 1.5-6.7L2.4 8.9l6.8-.6z"/></svg>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.8.6-5.1 4.5 1.5 6.7L12 17l-6 3.6 1.5-6.7L2.4 8.9l6.8-.6z"/></svg>
+        </div><span class="rating-num serif">4.9</span><span class="rating-meta mono">600+ operators</span></div>
+      </div>
+      <div class="review-rail" tabindex="0">
+        <figure class="review glass reveal"><div class="review__quote serif">"</div><blockquote>I stopped doing three things the next morning. The build file alone was worth a paid course.</blockquote><figcaption><span class="review__av">DR</span><span><b>Dana R.</b><em class="mono">COO · Logistics</em></span></figcaption></figure>
+        <figure class="review glass reveal"><div class="review__quote serif">"</div><blockquote>AI advice from people who've actually run companies. I saw the "line" in 20 minutes.</blockquote><figcaption><span class="review__av">MK</span><span><b>Marcus K.</b><em class="mono">Founder · SaaS</em></span></figcaption></figure>
+        <figure class="review glass reveal"><div class="review__quote serif">"</div><blockquote>The most useful 60 minutes I've spent on AI all year. The audit reframed my team's adoption.</blockquote><figcaption><span class="review__av">PL</span><span><b>Priya L.</b><em class="mono">Head of Ops</em></span></figcaption></figure>
+      </div>
+    </section>
+
+    <!-- LANDING: FINAL CTA -->
+    <section class="ll-final">
+      <div class="ll-final__halo" aria-hidden="true"></div>
+      <span class="eyebrow reveal" style="justify-content:center">Tuesday, June 9</span>
+      <h2 class="serif reveal ll-final__title">The room is closed.<br><span class="hl">Be in it.</span></h2>
+      <p class="lead reveal" style="margin:16px auto 28px">We email the link the morning of the call. Complimentary registration — live only.</p>
+      <button class="btn btn--primary reveal" data-magnetic data-open-modal style="margin-inline:auto">Reserve your seat
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </section>
+
+    <footer class="ll-footer">
+      <p class="serif">Oper<span class="hl">(AI)</span>ting Live</p>
+      <p class="mono">John Brewton · Operating &amp; 6AEP &nbsp;·&nbsp; Wessal Khader · Unfazed Founder™</p>
+    </footer>
+
+  </div><!-- /device__screen -->
+</div><!-- /device -->
+
+<style>
+/* ----- DEVICE PREVIEW CHROME (doc only) ----- */
+.device{max-width:1180px;margin:0 auto;border-radius:26px;overflow:hidden;
+  border:1px solid var(--glass-stroke);box-shadow:var(--shadow-float);background:var(--ink-2)}
+.device__bar{display:flex;align-items:center;gap:8px;padding:12px 18px;background:rgba(0,0,0,.35);
+  border-bottom:1px solid var(--glass-stroke)}
+.device__bar i{width:11px;height:11px;border-radius:50%;background:var(--warmsmoke)}
+.device__bar i:first-child{background:var(--cinder);opacity:.7}
+.device__bar span{margin-left:auto;font-size:.7rem;color:var(--stone)}
+.device__screen{position:relative;background:var(--ink);overflow:hidden}
+
+/* ----- LANDING NAV ----- */
+.ll-nav{position:sticky;top:0;z-index:40;transition:background var(--t-med),border-color var(--t-med),padding var(--t-med);
+  border-bottom:1px solid transparent;padding:6px 0}
+.ll-nav.scrolled{background:rgba(14,11,9,.78);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom-color:var(--glass-stroke)}
+.ll-nav__inner{display:flex;align-items:center;justify-content:space-between;padding:14px var(--gutter)}
+.ll-logo{font-size:1.4rem;font-weight:600;display:flex;align-items:baseline;gap:6px}
+.ll-logo__live{font-size:.6rem;letter-spacing:.2em;color:var(--taupe);background:var(--glass-fill);
+  padding:3px 7px;border-radius:5px;align-self:center}
+.ll-nav__cta{padding:12px 22px;font-size:.72rem}
+@media(max-width:560px){.ll-nav__cta{padding:11px 16px}}
+
+/* ----- LANDING HERO ----- */
+.ll-hero{position:relative;min-height:92svh;display:flex;align-items:center;overflow:hidden;
+  padding-block:var(--sp-9)}
+.ll-hero__mesh{position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:.8}
+.ll-hero__halo{position:absolute;inset:0;z-index:1;background:var(--halo-gold);pointer-events:none}
+.ll-hero__lines{position:absolute;inset:0;width:100%;height:100%;z-index:1}
+.ll-spark{stroke-dasharray:2000;stroke-dashoffset:2000;animation:drawspark 3s var(--ease-cine) .4s forwards}
+@keyframes drawspark{to{stroke-dashoffset:0}}
+.ll-hero__content{position:relative;z-index:3;width:100%;max-width:var(--wrap);margin-inline:auto;
+  padding-inline:var(--gutter);text-align:center;display:flex;flex-direction:column;align-items:center}
+.ll-badge{display:inline-block;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);
+  background:rgba(244,237,91,.08);border:1px solid var(--glass-stroke-bright);padding:8px 16px;border-radius:var(--r-pill);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.ll-hero__title{font-size:var(--fs-h1);margin:22px 0 18px}
+.ll-hero__sub{max-width:46ch;margin-bottom:18px}
+.ll-hero__sub b{color:var(--gold);font-weight:600}
+.ll-hero__when{font-size:.78rem;letter-spacing:.14em;color:var(--champagne);
+  background:rgba(0,0,0,.4);padding:9px 16px;border-radius:var(--r-pill);border:1px solid var(--glass-stroke);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);margin-bottom:28px}
+.ll-hero__cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.ll-hero__invite{font-size:.95rem;font-style:italic;color:var(--taupe);margin-top:22px}
+
+/* ----- CREDENTIAL MARQUEE ----- */
+.ll-marquee{overflow:hidden;border-block:1px solid var(--glass-stroke);background:rgba(0,0,0,.25);padding:16px 0}
+.ll-marquee__track{display:flex;align-items:center;gap:26px;white-space:nowrap;width:max-content;will-change:transform}
+.ll-marquee span{font-size:.78rem;letter-spacing:.18em;color:var(--champagne)}
+.ll-marquee i{color:var(--gold);font-style:normal;opacity:.5}
+
+/* ----- LANDING STATS ----- */
+.ll-stats{padding-block:var(--sp-8)}
+.ll-stats__grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter)}
+@media(min-width:760px){.ll-stats__grid{grid-template-columns:repeat(4,1fr)}}
+.ll-stat{text-align:center;padding:26px 16px;background:var(--ink-2);border:1px solid var(--glass-stroke);border-radius:var(--r-lg);
+  box-shadow:inset 0 1px 0 var(--glass-hi)}
+.ll-odo{font-family:'JetBrains Mono',monospace;font-size:clamp(2rem,7vw,3rem);font-weight:700;color:var(--gold);
+  display:inline-flex;line-height:1.15;height:1.15em;overflow:hidden;vertical-align:bottom}
+.ll-odo .odo-digit{overflow:hidden;height:1.15em;display:inline-block}
+.ll-odo .odo-strip{display:flex;flex-direction:column;transition:transform 1.6s var(--ease-cine)}
+.ll-odo .odo-strip span{height:1.15em;line-height:1.15;display:block}
+.ll-odo .odo-pre{color:var(--gold)}
+.ll-stat__suf{font-size:1rem;color:var(--gold);margin-left:3px}
+.ll-stat p{font-size:.72rem;color:var(--stone);margin-top:8px;letter-spacing:.04em}
+
+/* ----- LANDING SECTIONS ----- */
+.ll-section{max-width:var(--wrap);margin-inline:auto;padding:var(--sp-8) var(--gutter)}
+.ll-h2{font-size:var(--fs-h2);margin:14px 0 18px;max-width:18ch}
+.ll-prose{font-size:var(--fs-lead);color:var(--linen);max-width:62ch;line-height:1.6}
+.ll-prose b{color:var(--gold)}
+.ll-value{margin-top:var(--sp-6)}
+
+/* ----- LANDING FINAL ----- */
+.ll-final{position:relative;text-align:center;padding:var(--sp-10) var(--gutter);overflow:hidden}
+.ll-final__halo{position:absolute;inset:0;background:radial-gradient(60% 70% at 50% 30%,rgba(244,237,91,.16),transparent 60%);pointer-events:none}
+.ll-final__title{font-size:var(--fs-h1);position:relative}
+.ll-footer{text-align:center;padding:var(--sp-7) var(--gutter);border-top:1px solid var(--glass-stroke);background:rgba(0,0,0,.3)}
+.ll-footer p:first-child{font-size:1.5rem;margin-bottom:8px}
+.ll-footer .mono{font-size:.72rem;color:var(--stone);letter-spacing:.04em}
+
+/* ============================================================
+   LIVE DEMO 2 — REGISTRATION MODAL
+   ============================================================ */
+.modal-overlay{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;
+  padding:20px;background:rgba(8,6,5,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  opacity:0;visibility:hidden;transition:opacity var(--t-med) var(--ease-cine),visibility var(--t-med)}
+.modal-overlay.open{opacity:1;visibility:visible}
+.modal{position:relative;width:100%;max-width:460px;max-height:92svh;overflow-y:auto;padding:36px 32px;
+  border-radius:var(--r-xl);
+  background:radial-gradient(120% 80% at 50% 0,rgba(244,237,91,.10),transparent 50%),rgba(28,23,18,.92);
+  border:1px solid var(--glass-stroke-bright);
+  box-shadow:var(--shadow-float),inset 0 1px 0 var(--glass-hi);
+  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+  transform:translateY(24px) scale(.96);transition:transform var(--t-slow) var(--ease-cine)}
+.modal-overlay.open .modal{transform:translateY(0) scale(1)}
+.modal__close{position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;
+  background:var(--glass-fill);border:1px solid var(--glass-stroke);color:var(--linen);transition:all var(--t-fast)}
+.modal__close:hover{background:rgba(244,237,91,.12);color:var(--gold);border-color:var(--glass-stroke-bright);transform:rotate(90deg)}
+.modal__close svg{width:18px;height:18px}
+.modal__badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--gold);background:rgba(244,237,91,.10);border:1px solid var(--glass-stroke-bright);
+  padding:6px 13px;border-radius:var(--r-pill);margin-bottom:16px}
+.modal__title{font-size:1.85rem;margin-bottom:6px;line-height:1.08}
+.modal__sub{font-size:.9rem;color:var(--linen);margin-bottom:8px}
+.modal__when{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--champagne);
+  letter-spacing:.08em;margin-bottom:24px;display:flex;align-items:center;gap:8px}
+.modal__when::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold);
+  animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.field{margin-bottom:16px;position:relative}
+.field label{display:block;font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--taupe);margin-bottom:7px}
+.field input{width:100%;padding:14px 16px;font-family:'Inter',sans-serif;font-size:1rem;color:var(--bone);
+  background:rgba(0,0,0,.35);border:1px solid var(--glass-stroke);border-radius:var(--r-sm);
+  transition:border-color var(--t-fast),box-shadow var(--t-fast),background var(--t-fast)}
+.field input::placeholder{color:var(--stone)}
+.field input:focus{outline:none;border-color:var(--gold);background:rgba(0,0,0,.5);
+  box-shadow:0 0 0 3px rgba(244,237,91,.16)}
+.field input:user-invalid{border-color:var(--cinder)}
+.field__err{font-size:.72rem;color:var(--cinder);margin-top:6px;display:none}
+.field input:user-invalid ~ .field__err{display:block}
+.modal__submit{margin-top:8px}
+.modal__fine{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--stone);text-align:center;
+  margin-top:16px;letter-spacing:.04em;line-height:1.5}
+.modal__trust{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:14px;
+  font-size:.7rem;color:var(--taupe)}
+.modal__trust svg{width:14px;height:14px;color:var(--gold)}
+/* loading state on submit */
+.modal__submit.loading{pointer-events:none;opacity:.85}
+.modal__submit .spinner{display:none;width:16px;height:16px;border:2px solid rgba(26,22,4,.4);
+  border-top-color:#1A1604;border-radius:50%;animation:spin .7s linear infinite}
+.modal__submit.loading .spinner{display:inline-block}
+.modal__submit.loading .label{display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+
+<!-- The registration modal (lives at document root; toggled by JS) -->
+<div class="modal-overlay" id="registerModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal glass" role="document">
+    <button class="modal__close" id="modalClose" aria-label="Close registration">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <span class="modal__badge">Complimentary · One time only</span>
+    <h2 class="modal__title serif" id="modalTitle">Reserve your seat</h2>
+    <p class="modal__sub">A live 60-minute session with John Brewton &amp; Wessal Khader.</p>
+    <p class="modal__when mono">TUE JUN 9 · 1:00 PM ET · LIVE ONLY · NO REPLAY</p>
+
+    <form id="registerForm" novalidate>
+      <div class="field">
+        <label for="rf-name">Full name</label>
+        <input id="rf-name" name="name" type="text" autocomplete="name" required placeholder="Your name" aria-describedby="rf-name-err">
+        <span class="field__err" id="rf-name-err">Please enter your name.</span>
+      </div>
+      <div class="field">
+        <label for="rf-email">Work email</label>
+        <input id="rf-email" name="email" type="email" autocomplete="email" required placeholder="you@company.com" aria-describedby="rf-email-err">
+        <span class="field__err" id="rf-email-err">Please enter a valid email.</span>
+      </div>
+      <div class="field">
+        <label for="rf-role">Your role <span style="color:var(--stone)">(optional)</span></label>
+        <input id="rf-role" name="role" type="text" autocomplete="organization-title" placeholder="Founder, COO, Head of Ops…">
+      </div>
+      <button type="submit" class="btn btn--primary btn--block modal__submit" id="modalSubmit" data-magnetic>
+        <span class="label">Confirm my seat
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <span class="spinner" aria-hidden="true"></span>
+      </button>
+      <p class="modal__fine">We'll email the Zoom link the morning of the call.<br>No replay · No public recording.</p>
+      <div class="modal__trust"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg> Your details stay private.</div>
+    </form>
+  </div>
+</div>
+
+<!-- ============================================================
+     LIVE DEMO 3 — THANK YOU PAGE
+     (shown inline as a demo; the real flow swaps the modal for this state)
+     ============================================================ -->
+<section class="wrap sg-band" id="demo-register">
+  <div class="sg-band__head">
+    <span class="sg-band__no mono">07</span>
+    <h2 class="sg-band__title serif">Registration → Thank You</h2>
+  </div>
+  <p class="sg-note reveal">Tap any <b>Reserve / Confirm</b> button to open the modal and submit (demo validation, no real network call). On success the modal celebrates, then routes to the Thank You state — previewed live below. <button class="mini-btn mono" data-open-modal style="margin-top:0">Open the modal ▸</button></p>
+</section>
+
+<div class="device reveal" id="demo-thanks">
+  <div class="device__bar"><i></i><i></i><i></i><span class="mono">operaitinglive.com/thank-you</span></div>
+  <div class="device__screen">
+    <section class="ty">
+      <canvas id="tyMesh" class="ty__mesh" aria-hidden="true"></canvas>
+      <div class="ty__halo" aria-hidden="true"></div>
+      <div class="ty__content">
+        <div class="ty__check" id="tyCheck" aria-hidden="true">
+          <svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="24" fill="none"/><path fill="none" d="M14 27l8 8 16-16"/></svg>
+        </div>
+        <span class="ll-badge mono reveal">You're in the room</span>
+        <h1 class="ty__title serif reveal"><span class="serif">Your seat is </span><span class="hl">reserved.</span></h1>
+        <p class="lead reveal ty__lead">Check your inbox for confirmation. We'll email your private Zoom link the morning of <b>Tuesday, June 9</b>. Show up live — there is no replay.</p>
+
+        <div class="ty__card glass reveal">
+          <div class="ty__row"><span class="mono">WHEN</span><span>Tue Jun 9 · 1:00 PM ET / 10:00 AM PT</span></div>
+          <div class="ty__row"><span class="mono">WHERE</span><span>Zoom — link emailed that morning</span></div>
+          <div class="ty__row"><span class="mono">BRING</span><span>The one workflow you most want off your plate</span></div>
+        </div>
+
+        <div class="ty__actions reveal">
+          <a class="btn btn--primary" data-magnetic href="#" id="tyCal">Add to calendar
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18M8 2v4M16 2v4"/></svg></a>
+          <a class="btn btn--ghost" href="#" id="tyShare">Invite a peer</a>
+        </div>
+
+        <div class="ty__next reveal">
+          <p class="eyebrow" style="justify-content:center;margin-bottom:18px">While you wait</p>
+          <div class="ty__hint mono">Watch your inbox · A prep note arrives 24h before the call</div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<style>
+.ty{position:relative;min-height:88svh;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;padding:var(--sp-9) var(--gutter);text-align:center}
+.ty__mesh{position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:.7}
+.ty__halo{position:absolute;inset:0;z-index:1;background:radial-gradient(55% 60% at 50% 28%,rgba(244,237,91,.18),transparent 60%);pointer-events:none}
+.ty__content{position:relative;z-index:3;max-width:580px;display:flex;flex-direction:column;align-items:center}
+.ty__check{width:88px;height:88px;border-radius:50%;display:grid;place-items:center;margin-bottom:22px;
+  background:rgba(244,237,91,.10);border:1px solid var(--glass-stroke-bright);box-shadow:var(--glow-gold)}
+.ty__check svg{width:52px;height:52px}
+.ty__check circle{stroke:var(--gold);stroke-width:2;stroke-dasharray:151;stroke-dashoffset:151;
+  animation:drawcircle .7s var(--ease-cine) .1s forwards}
+.ty__check path{stroke:var(--gold);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:40;stroke-dashoffset:40;animation:drawcheck .4s var(--ease-cine) .7s forwards}
+@keyframes drawcircle{to{stroke-dashoffset:0}}
+@keyframes drawcheck{to{stroke-dashoffset:0}}
+.ty__title{font-size:var(--fs-h1);margin:18px 0 16px}
+.ty__lead{max-width:48ch}.ty__lead b{color:var(--gold);font-weight:600}
+.ty__card{width:100%;padding:8px 4px;margin:30px 0 26px;text-align:left}
+.ty__row{display:flex;gap:14px;padding:15px 20px;border-bottom:1px solid var(--glass-stroke);align-items:center}
+.ty__row:last-child{border-bottom:none}
+.ty__row .mono{font-size:.66rem;letter-spacing:.12em;color:var(--gold);min-width:54px;flex-shrink:0}
+.ty__row span:last-child{font-size:.92rem;color:var(--bone)}
+.ty__actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.ty__next{margin-top:34px;width:100%}
+.ty__hint{font-size:.72rem;color:var(--stone);letter-spacing:.06em;background:var(--glass-fill);
+  border:1px solid var(--glass-stroke);padding:12px 18px;border-radius:var(--r-pill);display:inline-block}
+
+/* confetti canvas for success burst */
+#confetti{position:fixed;inset:0;z-index:120;pointer-events:none}
+
+/* ----- DOC FOOTER ----- */
+.sg-foot{border-top:1px solid var(--glass-stroke);padding:var(--sp-8) var(--gutter);text-align:center}
+.sg-foot h3{font-size:1.6rem;margin-bottom:10px}
+.sg-foot p{color:var(--stone);font-size:.82rem;max-width:60ch;margin-inline:auto;line-height:1.6}
+.sg-foot .mono{color:var(--taupe);margin-top:18px;font-size:.7rem;letter-spacing:.1em}
+</style>
+
+<footer class="sg-foot">
+  <h3 class="serif">Oper<span class="hl">(AI)</span>ting Live — Design System</h3>
+  <p>Single-file, GSAP-powered, mobile-first. Liquid glass surfaces, Fraunces editorial display, the brand's electric yellow elevated to an emissive gold. Cinematic modules adapted from the Cinematic Sites Agent Kit: mesh-gradient ambient, spotlight-border grids, odometer counters, kinetic marquee, magnetic CTAs, and cursor glow — all tuned to run on touch.</p>
+  <p class="mono">Built to drop into Kajabi · One file · No build step</p>
+</footer>
+
+<canvas id="confetti" aria-hidden="true"></canvas>
+</main>
+
+<script>
+/* ============================================================
+   OPER(AI)TING LIVE — MOTION ENGINE
+   ============================================================ */
+(function(){
+  "use strict";
+  document.documentElement.classList.add('js');
+  var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hasGSAP = typeof gsap !== 'undefined';
+  if(hasGSAP && typeof ScrollTrigger !== 'undefined') gsap.registerPlugin(ScrollTrigger);
+
+  /* ---------- 1. MESH GRADIENT (liquid ambient) ----------
+     Adapted from Cinematic Modules · mesh-gradient.
+     Brand palette: gold, champagne, ash, cinder over espresso. */
+  function initMesh(canvas, opts){
+    if(!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var speed = REDUCED ? 0 : (opts.speed || .35);
+    var bg = opts.bg || '#0E0B09';
+    var colors = opts.colors;
+    var blobs = colors.map(function(c){
+      return {x:Math.random(),y:Math.random(),
+        vx:(Math.random()-.5)*speed, vy:(Math.random()-.5)*speed,
+        r:.28+Math.random()*.22, color:c};
+    });
+    function resize(){
+      var dpr = Math.min(window.devicePixelRatio||1, 2);
+      canvas.width = canvas.offsetWidth*dpr;
+      canvas.height = canvas.offsetHeight*dpr;
+    }
+    resize(); window.addEventListener('resize', resize);
+    function draw(){
+      var w=canvas.width, h=canvas.height;
+      ctx.fillStyle=bg; ctx.fillRect(0,0,w,h);
+      blobs.forEach(function(b){
+        if(!REDUCED){
+          b.x+=b.vx/Math.max(w,1); b.y+=b.vy/Math.max(h,1);
+          if(b.x<-.25||b.x>1.25) b.vx*=-1;
+          if(b.y<-.25||b.y>1.25) b.vy*=-1;
+        }
+        var grd=ctx.createRadialGradient(b.x*w,b.y*h,0,b.x*w,b.y*h,b.r*Math.max(w,h));
+        grd.addColorStop(0,b.color); grd.addColorStop(1,'transparent');
+        ctx.globalCompositeOperation='lighter';
+        ctx.fillStyle=grd; ctx.fillRect(0,0,w,h);
+        ctx.globalCompositeOperation='source-over';
+      });
+      if(!REDUCED) requestAnimationFrame(draw);
+    }
+    draw();
+  }
+  var goldMesh = ['rgba(244,237,91,.16)','rgba(232,217,168,.10)','rgba(110,146,184,.10)','rgba(194,90,38,.07)'];
+  initMesh(document.getElementById('sghMesh'), {colors:goldMesh, speed:.3});
+  initMesh(document.getElementById('llMesh'),  {colors:goldMesh, speed:.32});
+  initMesh(document.getElementById('tyMesh'),  {colors:['rgba(244,237,91,.18)','rgba(232,217,168,.12)','rgba(110,146,184,.08)'], speed:.28});
+
+  /* ---------- 2. CURSOR GLOW (desktop only) ---------- */
+  var glow = document.getElementById('cursorGlow');
+  if(glow && !REDUCED && window.matchMedia('(hover:hover)').matches){
+    var mx=window.innerWidth/2, my=window.innerHeight/2, gx=mx, gy=my;
+    document.addEventListener('mousemove', function(e){ mx=e.clientX; my=e.clientY; });
+    (function move(){ gx+=(mx-gx)*.12; gy+=(my-gy)*.12;
+      glow.style.transform='translate('+gx+'px,'+gy+'px) translate(-50%,-50%)';
+      requestAnimationFrame(move); })();
+  }
+
+  /* ---------- 3. GSAP SCROLL REVEALS (batched for mobile perf) ---------- */
+  if(hasGSAP && !REDUCED){
+    ScrollTrigger.batch('.reveal', {
+      start:'top 88%',
+      onEnter:function(els){
+        gsap.to(els,{opacity:1,y:0,duration:.9,ease:'power3.out',stagger:.08,overwrite:true});
+      },
+      once:true
+    });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){el.style.opacity=1;el.style.transform='none';});
+  }
+
+  /* ---------- 4. NAV SCROLL STATE ---------- */
+  var nav = document.getElementById('llNav');
+  if(nav){
+    var screen = nav.closest('.device__screen');
+    var scroller = window;
+    function navState(){ if(nav.getBoundingClientRect().top<=2 || window.scrollY>200) nav.classList.add('scrolled'); else nav.classList.remove('scrolled'); }
+    window.addEventListener('scroll', navState, {passive:true}); navState();
+  }
+
+  /* ---------- 5. ODOMETER COUNTERS ----------
+     Adapted from Cinematic Modules · odometer. */
+  function buildOdo(odo){
+    var val=String(odo.dataset.value), pre=odo.dataset.pre||'';
+    odo.innerHTML='';
+    if(pre){ var p=document.createElement('span'); p.className='odo-pre'; p.textContent=pre; odo.appendChild(p); }
+    val.split('').forEach(function(d){
+      if(d===','){ var c=document.createElement('span'); c.textContent=','; odo.appendChild(c); return; }
+      var dig=document.createElement('span'); dig.className='odo-digit';
+      var strip=document.createElement('span'); strip.className='odo-strip';
+      for(var i=0;i<=9;i++){ var s=document.createElement('span'); s.textContent=i; strip.appendChild(s); }
+      dig.appendChild(strip); odo.appendChild(dig);
+    });
+    return odo;
+  }
+  function rollOdo(odo){
+    var digits=String(odo.dataset.value).replace(/,/g,'').split('');
+    var strips=odo.querySelectorAll('.odo-strip');
+    strips.forEach(function(strip,i){
+      var target=parseInt(digits[i],10)||0;
+      var h=strip.children[0].offsetHeight;
+      if(REDUCED){ strip.style.transform='translateY(-'+(target*h)+'px)'; return; }
+      strip.style.transitionDelay=(i*.12)+'s';
+      requestAnimationFrame(function(){ strip.style.transform='translateY(-'+(target*h)+'px)'; });
+    });
+  }
+  document.querySelectorAll('.ll-odo, .mini-odo').forEach(function(odo){
+    buildOdo(odo);
+    if(hasGSAP){ ScrollTrigger.create({trigger:odo,start:'top 88%',once:true,onEnter:function(){rollOdo(odo);}}); }
+    else rollOdo(odo);
+  });
+
+  /* ---------- 6. KINETIC MARQUEE (scroll-reactive) ----------
+     Adapted from Cinematic Modules · kinetic-marquee. */
+  var mq = document.getElementById('llMarquee');
+  if(mq && hasGSAP && !REDUCED){
+    var base=40, vel=0, x=0, half=mq.scrollWidth/2;
+    ScrollTrigger.create({onUpdate:function(self){ vel=Math.abs(self.getVelocity()); }});
+    (function loop(){
+      x -= (base + vel*0.12)/60;
+      if(x <= -half) x += half;
+      mq.style.transform='translateX('+x+'px)';
+      requestAnimationFrame(loop);
+    })();
+  }
+
+  /* ---------- 7. MAGNETIC BUTTONS + tap pulse ---------- */
+  document.querySelectorAll('[data-magnetic]').forEach(function(btn){
+    if(window.matchMedia('(hover:hover)').matches && !REDUCED){
+      btn.addEventListener('mousemove', function(e){
+        var r=btn.getBoundingClientRect();
+        var cx=r.left+r.width/2, cy=r.top+r.height/2;
+        btn.style.transform='translate('+((e.clientX-cx)*.25)+'px,'+((e.clientY-cy)*.25)+'px)';
+      });
+      btn.addEventListener('mouseleave', function(){ btn.style.transform='translate(0,0)'; });
+    }
+  });
+
+  /* ---------- 8. SPOTLIGHT TRACKING (cards) ---------- */
+  function trackSpot(container){
+    if(!container) return;
+    container.addEventListener('pointermove', function(e){
+      container.querySelectorAll('.spot-card, .vcard').forEach(function(c){
+        var r=c.getBoundingClientRect();
+        c.style.setProperty('--mx',(e.clientX-r.left)+'px');
+        c.style.setProperty('--my',(e.clientY-r.top)+'px');
+      });
+    });
+  }
+  ['spotMini','valueGrid','valueGrid2'].forEach(function(id){ trackSpot(document.getElementById(id)); });
+  // Mobile: light the in-view value card
+  if(hasGSAP){
+    document.querySelectorAll('.vcard').forEach(function(c){
+      ScrollTrigger.create({trigger:c,start:'top 70%',end:'bottom 40%',
+        onToggle:function(self){ if(!window.matchMedia('(hover:hover)').matches) c.classList.toggle('lit',self.isActive); }});
+    });
+  }
+
+  /* ---------- 9. REGISTRATION MODAL ---------- */
+  var modal=document.getElementById('registerModal');
+  var modalInner=modal.querySelector('.modal');
+  var openers=document.querySelectorAll('[data-open-modal]');
+  var closeBtn=document.getElementById('modalClose');
+  var form=document.getElementById('registerForm');
+  var submitBtn=document.getElementById('modalSubmit');
+  var lastFocus=null;
+
+  function focusables(){ return modal.querySelectorAll('button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])'); }
+  function openModal(){
+    lastFocus=document.activeElement;
+    modal.classList.add('open'); modal.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+    setTimeout(function(){ var f=modal.querySelector('#rf-name'); if(f) f.focus(); }, 120);
+  }
+  function closeModal(){
+    modal.classList.remove('open'); modal.setAttribute('aria-hidden','true');
+    document.body.style.overflow='';
+    if(lastFocus) lastFocus.focus();
+    // reset to form state if it had been swapped
+    setTimeout(resetModal, 400);
+  }
+  openers.forEach(function(o){ o.addEventListener('click', function(e){ e.preventDefault(); openModal(); }); });
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e){ if(e.target===modal) closeModal(); });
+  document.addEventListener('keydown', function(e){
+    if(e.key==='Escape' && modal.classList.contains('open')) closeModal();
+    if(e.key==='Tab' && modal.classList.contains('open')){
+      var f=Array.prototype.slice.call(focusables()).filter(function(el){return el.offsetParent!==null;});
+      if(!f.length) return;
+      var first=f[0], last=f[f.length-1];
+      if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
+      else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
+    }
+  });
+
+  var originalModalHTML = modalInner.innerHTML;
+  function resetModal(){
+    if(!modal.classList.contains('open')){ modalInner.innerHTML=originalModalHTML; bindForm(); }
+  }
+
+  /* ---------- 10. FORM SUBMIT → SUCCESS → THANK YOU ---------- */
+  function bindForm(){
+    var f=document.getElementById('registerForm');
+    var s=document.getElementById('modalSubmit');
+    var c=document.getElementById('modalClose');
+    if(c) c.addEventListener('click', closeModal);
+    if(!f) return;
+    f.addEventListener('submit', function(e){
+      e.preventDefault();
+      if(!f.checkValidity()){ f.querySelectorAll('input').forEach(function(i){i.blur();i.focus();}); 
+        var firstInvalid=f.querySelector(':invalid'); if(firstInvalid) firstInvalid.focus(); return; }
+      s.classList.add('loading');
+      // Simulated async (replace with Kajabi form POST / opt-in endpoint)
+      setTimeout(function(){
+        s.classList.remove('loading');
+        showSuccess(new FormData(f).get('name'));
+      }, 1100);
+    });
+  }
+  bindForm();
+
+  function showSuccess(name){
+    var first = (name||'').trim().split(' ')[0] || 'operator';
+    modalInner.innerHTML =
+      '<div class="modal__success">'+
+        '<div class="ty__check" aria-hidden="true"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="24" fill="none"/><path fill="none" d="M14 27l8 8 16-16"/></svg></div>'+
+        '<span class="modal__badge">You\'re in the room</span>'+
+        '<h2 class="modal__title serif">See you live, '+escapeHTML(first)+'.</h2>'+
+        '<p class="modal__sub">Your seat is reserved. Check your inbox for confirmation — we\'ll email your private Zoom link the morning of <b style="color:var(--gold)">Tuesday, June 9</b>.</p>'+
+        '<div class="ty__card glass" style="margin:22px 0 18px;text-align:left">'+
+          '<div class="ty__row"><span class="mono">WHEN</span><span>Tue Jun 9 · 1:00 PM ET</span></div>'+
+          '<div class="ty__row"><span class="mono">WHERE</span><span>Zoom — link emailed that morning</span></div>'+
+        '</div>'+
+        '<a class="btn btn--primary btn--block" data-magnetic href="#demo-thanks" id="successCal">View your confirmation</a>'+
+        '<p class="modal__fine">No replay · No public recording · Show up live.</p>'+
+      '</div>';
+    // animate check + confetti
+    burstConfetti();
+    var calBtn=document.getElementById('successCal');
+    if(calBtn) calBtn.addEventListener('click', function(){ closeModal(); setTimeout(function(){ document.getElementById('demo-thanks').scrollIntoView({behavior:'smooth'}); replayThankYou(); }, 350); });
+  }
+  function escapeHTML(str){ return String(str).replace(/[&<>"']/g,function(m){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m];}); }
+
+  /* ---------- 11. CONFETTI BURST (gold) ---------- */
+  var confettiCanvas=document.getElementById('confetti');
+  function burstConfetti(){
+    if(REDUCED) return;
+    var ctx=confettiCanvas.getContext('2d');
+    confettiCanvas.width=window.innerWidth; confettiCanvas.height=window.innerHeight;
+    var pieces=[], cols=['#F4ED5B','#E8D9A8','#D8C73F','#F4EFE6'];
+    for(var i=0;i<90;i++){
+      pieces.push({x:window.innerWidth/2,y:window.innerHeight*0.4,
+        vx:(Math.random()-.5)*14, vy:(Math.random()-1)*15,
+        size:5+Math.random()*7, color:cols[i%cols.length],
+        rot:Math.random()*6, vr:(Math.random()-.5)*.4, life:0});
+    }
+    var t=0;
+    (function anim(){
+      ctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
+      var alive=false;
+      pieces.forEach(function(p){
+        p.vy+=.4; p.x+=p.vx; p.y+=p.vy; p.rot+=p.vr; p.life++;
+        if(p.y<confettiCanvas.height+40) alive=true;
+        ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot);
+        ctx.globalAlpha=Math.max(0,1-p.life/120);
+        ctx.fillStyle=p.color; ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*.6);
+        ctx.restore();
+      });
+      t++;
+      if(alive && t<150) requestAnimationFrame(anim);
+      else ctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
+    })();
+  }
+
+  /* ---------- 12. THANK-YOU replay (re-trigger check draw) ---------- */
+  function replayThankYou(){
+    var check=document.getElementById('tyCheck');
+    if(!check) return;
+    var clone=check.cloneNode(true);
+    check.parentNode.replaceChild(clone, check); clone.id='tyCheck';
+    burstConfetti();
+  }
+  // calendar / share niceties (demo)
+  var tyCal=document.getElementById('tyCal');
+  if(tyCal) tyCal.addEventListener('click', function(e){ e.preventDefault(); });
+  var tyShare=document.getElementById('tyShare');
+  if(tyShare) tyShare.addEventListener('click', function(e){
+    e.preventDefault();
+    if(navigator.share){ navigator.share({title:'Oper(AI)ting Live', text:'A free live AI masterclass for operators — June 9.', url:location.href}).catch(function(){}); }
+  });
+
+  /* ---------- 13. Re-bind magnetic for dynamically added buttons ---------- */
+  // (handled per-open since modal HTML resets)
+
+})();
+</script>
+</body>
+</html>
