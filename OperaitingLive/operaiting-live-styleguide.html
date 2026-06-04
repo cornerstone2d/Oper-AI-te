@@ -8,7 +8,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -23,9 +23,9 @@
 :root{
   /* — Elevated brand palette (evolved from the original bone/taupe/yellow) — */
   /* Dark-mode-first: the original deep taupe becomes a richer, deeper ground */
-  --ink:#0E0B09;            /* near-black espresso ground */
-  --ink-2:#15110D;          /* raised panel */
-  --ink-3:#1C1712;          /* card ground */
+  --ink:#221A13;            /* warm espresso-taupe ground */
+  --ink-2:#2D2218;          /* raised panel */
+  --ink-3:#36291E;          /* card ground */
   --espresso:#2B231F;       /* original deeptaupe-deep, now a mid */
   --warmsmoke:#3A302A;      /* warm divider ground */
 
@@ -103,10 +103,10 @@ body{
   text-rendering:optimizeLegibility;
   overflow-x:hidden;
 }
-h1,h2,h3,h4,.serif{font-family:'Fraunces',Georgia,serif;}
+h1,h2,h3,h4,.serif{font-family:'Playfair Display',Georgia,serif;}
 h1,h2{font-weight:600;line-height:1.05;letter-spacing:-.02em;}
 h3{font-weight:600;line-height:1.15;letter-spacing:-.01em;}
-.mono{font-family:'JetBrains Mono',monospace;}
+.mono{font-family:'Inter',sans-serif;}
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
@@ -125,7 +125,7 @@ section[id],[id^="demo-"],[id^="sg-"]{scroll-margin-top:84px}
 /* ----- 4. LAYOUT PRIMITIVES -------------------------------- */
 .wrap{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter);position:relative;z-index:3}
 section{position:relative;padding-block:var(--sp-9)}
-.eyebrow{font-family:'JetBrains Mono',monospace;font-size:var(--fs-label);font-weight:600;
+.eyebrow{font-family:'Inter',sans-serif;font-size:var(--fs-label);font-weight:600;
   letter-spacing:.22em;text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center;gap:8px}
 .eyebrow::before{content:"";width:22px;height:1px;background:var(--gold);opacity:.7}
 .muted{color:var(--stone)}
@@ -156,7 +156,7 @@ section{position:relative;padding-block:var(--sp-9)}
 
 /* ----- 6. BUTTONS ------------------------------------------ */
 .btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;
-  font-family:'JetBrains Mono',monospace;font-size:.8125rem;font-weight:600;letter-spacing:.12em;
+  font-family:'Inter',sans-serif;font-size:.8125rem;font-weight:600;letter-spacing:.12em;
   text-transform:uppercase;padding:17px 30px;border-radius:var(--r-pill);
   transition:transform var(--t-med) var(--ease-cine),box-shadow var(--t-med) var(--ease-cine),
              background var(--t-fast) var(--ease-out),color var(--t-fast) var(--ease-out);
@@ -179,12 +179,12 @@ html:not(.js) .reveal{opacity:1;transform:none}
 .sg-nav{position:sticky;top:0;z-index:50;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;
   padding:12px var(--gutter);background:rgba(14,11,9,.72);backdrop-filter:blur(14px);
   -webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--glass-stroke)}
-.sg-nav a{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;
+.sg-nav a{font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;
   color:var(--taupe);padding:7px 13px;border-radius:var(--r-pill);transition:color var(--t-fast),background var(--t-fast)}
 .sg-nav a:hover{color:var(--gold);background:var(--glass-fill)}
 .sg-band{border-top:1px solid var(--glass-stroke);padding-block:var(--sp-7)}
 .sg-band__head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:var(--sp-6)}
-.sg-band__no{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--gold)}
+.sg-band__no{font-family:'Inter',sans-serif;font-size:.8rem;color:var(--gold)}
 .sg-band__title{font-size:var(--fs-h3)}
 .sg-note{font-size:var(--fs-sm);color:var(--linen);max-width:64ch;margin-top:6px}
 
@@ -231,8 +231,8 @@ html:not(.js) .reveal{opacity:1;transform:none}
     <p class="lead reveal sgh__lead">A cinematic, mobile-first design language for an AI-for-business leader.
       Liquid glass, editorial serif, and intentional motion — evolved from the brand's deep-taupe-and-electric-yellow roots, elevated to feel premium.</p>
     <div class="sgh__meta reveal">
-      <span class="chip mono">Fraunces · Inter · JetBrains Mono</span>
-      <span class="chip mono">GSAP + ScrollTrigger</span>
+      <span class="chip mono">Playfair Display · Inter</span>
+      <span class="chip mono">Two-typeface system</span>
       <span class="chip mono">Dark-mode first</span>
       <span class="chip mono">WCAG AAA targets</span>
     </div>
@@ -265,12 +265,12 @@ html:not(.js) .reveal{opacity:1;transform:none}
     <span class="sg-band__no mono">01</span>
     <h2 class="sg-band__title serif">Color &amp; Light</h2>
   </div>
-  <p class="sg-note reveal">Dark-mode first. The original deep taupe deepens into an espresso ground so the signature
+  <p class="sg-note reveal">Dark-mode first. The brand's deep taupe settles into a warm espresso-taupe ground (nudged toward the personal-brand Deep Taupe family, never black, never green) so the signature
     electric yellow reads as <em>light emitting from a screen</em>. Bone and linen carry warmth into text; gold and champagne add metallic restraint. Spark colors (cinder, ash) appear only in data-viz line art.</p>
 
   <div class="swatches">
-    <figure class="sw reveal" style="--c:#0E0B09"><div class="sw__chip"></div><figcaption><b>Ink</b><span class="mono">#0E0B09</span><em>ground</em></figcaption></figure>
-    <figure class="sw reveal" style="--c:#1C1712"><div class="sw__chip"></div><figcaption><b>Ink-3</b><span class="mono">#1C1712</span><em>cards</em></figcaption></figure>
+    <figure class="sw reveal" style="--c:#221A13"><div class="sw__chip"></div><figcaption><b>Ink</b><span class="mono">#221A13</span><em>ground</em></figcaption></figure>
+    <figure class="sw reveal" style="--c:#36291E"><div class="sw__chip"></div><figcaption><b>Ink-3</b><span class="mono">#36291E</span><em>cards</em></figcaption></figure>
     <figure class="sw reveal" style="--c:#2B231F"><div class="sw__chip"></div><figcaption><b>Espresso</b><span class="mono">#2B231F</span><em>mid</em></figcaption></figure>
     <figure class="sw reveal" style="--c:#F4ED5B"><div class="sw__chip"></div><figcaption><b>Gold</b><span class="mono">#F4ED5B</span><em>primary accent</em></figcaption></figure>
     <figure class="sw reveal" style="--c:#E8D9A8"><div class="sw__chip"></div><figcaption><b>Champagne</b><span class="mono">#E8D9A8</span><em>fine lines</em></figcaption></figure>
@@ -301,8 +301,8 @@ html:not(.js) .reveal{opacity:1;transform:none}
 .contrast-note__row{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--glass-stroke)}
 .contrast-note__row:last-child{border-bottom:none}
 .contrast-note__row .mono{font-size:.82rem;flex:1;color:var(--bone)}
-.ratio{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--champagne)}
-.pass{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;background:rgba(244,237,91,.14);
+.ratio{font-family:'Inter',sans-serif;font-size:.82rem;color:var(--champagne)}
+.pass{font-family:'Inter',sans-serif;font-size:.66rem;letter-spacing:.1em;background:rgba(244,237,91,.14);
   color:var(--gold);padding:5px 10px;border-radius:var(--r-pill);min-width:54px;text-align:center}
 .pass--aa{background:rgba(110,146,184,.16);color:#9FBFE0}
 </style>
@@ -313,16 +313,16 @@ html:not(.js) .reveal{opacity:1;transform:none}
     <span class="sg-band__no mono">02</span>
     <h2 class="sg-band__title serif">Typography</h2>
   </div>
-  <p class="sg-note reveal">High-contrast editorial pairing. <b>Fraunces</b> (an "old-style" serif with optical sizing) replaces
-    the previous Playfair as the display face — same elegant DNA, more character and warmth at large sizes. <b>Inter</b> carries body copy; <b>JetBrains Mono</b> handles labels, data, and CTAs to reinforce the "operator/terminal" feel.</p>
+  <p class="sg-note reveal">A disciplined two-typeface system, aligned with the John Brewton / Oper(AI)te brand. <b>Playfair Display</b> is the display
+    face for headlines, pull quotes, and numeric figures (prices, dates, the odometer). <b>Inter</b> carries everything else — body copy, labels, data, and CTAs. No third face.</p>
 
   <div class="type-stack">
     <div class="type-row reveal">
-      <div class="type-spec"><span class="mono">Display · Fraunces 600</span><span class="mono muted">clamp 2.1–5rem · lh 1.05 · -0.02em</span></div>
+      <div class="type-spec"><span class="mono">Display · Playfair Display 600</span><span class="mono muted">clamp 2.1–5rem · lh 1.05 · -0.02em</span></div>
       <p class="type-sample serif" style="font-size:var(--fs-h1)">Operate on the<br>other side of the line.</p>
     </div>
     <div class="type-row reveal">
-      <div class="type-spec"><span class="mono">Heading · Fraunces 600</span><span class="mono muted">clamp 1.7–3.25rem · lh 1.05</span></div>
+      <div class="type-spec"><span class="mono">Heading · Playfair Display 600</span><span class="mono muted">clamp 1.7–3.25rem · lh 1.05</span></div>
       <p class="type-sample serif" style="font-size:var(--fs-h2)">What the top 1% already know.</p>
     </div>
     <div class="type-row reveal">
@@ -334,7 +334,7 @@ html:not(.js) .reveal{opacity:1;transform:none}
       <p class="type-sample">The gap is not about tools, models, or prompts. It is a single mental shift the most AI-fluent operators have already made — and everyone else is still climbing toward.</p>
     </div>
     <div class="type-row reveal">
-      <div class="type-spec"><span class="mono">Eyebrow · Mono 600</span><span class="mono muted">0.6875rem · 0.22em · upper</span></div>
+      <div class="type-spec"><span class="mono">Eyebrow · Inter 600</span><span class="mono muted">0.6875rem · 0.22em · upper</span></div>
       <p class="type-sample"><span class="eyebrow">What is delivered in one hour</span></p>
     </div>
   </div>
@@ -413,7 +413,7 @@ html:not(.js) .reveal{opacity:1;transform:none}
 .m-bar:nth-child(2){width:80%;opacity:.7}.m-bar:nth-child(3){width:45%;opacity:.45}
 .motion-stage .m-bar{align-self:flex-start}
 .sheen-demo{width:100%;height:46px;border-radius:var(--r-md);background:var(--glass-fill-2)}
-.mini-odo{font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:700;color:var(--gold);display:flex}
+.mini-odo{font-family:'Inter',sans-serif;font-size:2rem;font-weight:700;color:var(--gold);display:flex}
 .mini-odo .odo-digit{overflow:hidden;height:1.15em}
 .mini-odo .odo-strip{display:flex;flex-direction:column;transition:transform 1.5s var(--ease-cine)}
 .mini-odo .odo-strip span{height:1.15em;line-height:1.15}
@@ -741,7 +741,7 @@ html:not(.js) .reveal{opacity:1;transform:none}
 .review figcaption{display:flex;align-items:center;gap:12px}
 .review__av{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;flex-shrink:0;
   background:linear-gradient(150deg,var(--espresso),var(--ink-3));border:1px solid var(--glass-stroke-bright);
-  font-family:'Fraunces',serif;color:var(--gold);font-size:.9rem}
+  font-family:'Playfair Display',serif;color:var(--gold);font-size:.9rem}
 .review figcaption b{display:block;font-size:.92rem;color:var(--bone)}
 .review figcaption em{font-style:normal;font-size:.7rem;color:var(--stone);letter-spacing:.04em}
 .rail-hint{text-align:center;font-size:.66rem;color:var(--stone);letter-spacing:.18em;text-transform:uppercase}
@@ -987,7 +987,7 @@ html:not(.js) .reveal{opacity:1;transform:none}
 @media(min-width:760px){.ll-stats__grid{grid-template-columns:repeat(4,1fr)}}
 .ll-stat{text-align:center;padding:26px 16px;background:var(--ink-2);border:1px solid var(--glass-stroke);border-radius:var(--r-lg);
   box-shadow:inset 0 1px 0 var(--glass-hi)}
-.ll-odo{font-family:'JetBrains Mono',monospace;font-size:clamp(2rem,7vw,3rem);font-weight:700;color:var(--gold);
+.ll-odo{font-family:'Inter',sans-serif;font-size:clamp(2rem,7vw,3rem);font-weight:700;color:var(--gold);
   display:inline-flex;line-height:1.15;height:1.15em;overflow:hidden;vertical-align:bottom}
 .ll-odo .odo-digit{overflow:hidden;height:1.15em;display:inline-block}
 .ll-odo .odo-strip{display:flex;flex-direction:column;transition:transform 1.6s var(--ease-cine)}
@@ -1030,18 +1030,18 @@ html:not(.js) .reveal{opacity:1;transform:none}
   background:var(--glass-fill);border:1px solid var(--glass-stroke);color:var(--linen);transition:all var(--t-fast)}
 .modal__close:hover{background:rgba(244,237,91,.12);color:var(--gold);border-color:var(--glass-stroke-bright);transform:rotate(90deg)}
 .modal__close svg{width:18px;height:18px}
-.modal__badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.16em;
+.modal__badge{display:inline-block;font-family:'Inter',sans-serif;font-size:.62rem;letter-spacing:.16em;
   text-transform:uppercase;color:var(--gold);background:rgba(244,237,91,.10);border:1px solid var(--glass-stroke-bright);
   padding:6px 13px;border-radius:var(--r-pill);margin-bottom:16px}
 .modal__title{font-size:1.85rem;margin-bottom:6px;line-height:1.08}
 .modal__sub{font-size:.9rem;color:var(--linen);margin-bottom:8px}
-.modal__when{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--champagne);
+.modal__when{font-family:'Inter',sans-serif;font-size:.72rem;color:var(--champagne);
   letter-spacing:.08em;margin-bottom:24px;display:flex;align-items:center;gap:8px}
 .modal__when::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold);
   animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 .field{margin-bottom:16px;position:relative}
-.field label{display:block;font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;
+.field label{display:block;font-family:'Inter',sans-serif;font-size:.66rem;letter-spacing:.1em;
   text-transform:uppercase;color:var(--taupe);margin-bottom:7px}
 .field input{width:100%;padding:14px 16px;font-family:'Inter',sans-serif;font-size:1rem;color:var(--bone);
   background:rgba(0,0,0,.35);border:1px solid var(--glass-stroke);border-radius:var(--r-sm);
@@ -1053,7 +1053,7 @@ html:not(.js) .reveal{opacity:1;transform:none}
 .field__err{font-size:.72rem;color:var(--cinder);margin-top:6px;display:none}
 .field input:user-invalid ~ .field__err{display:block}
 .modal__submit{margin-top:8px}
-.modal__fine{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--stone);text-align:center;
+.modal__fine{font-family:'Inter',sans-serif;font-size:.62rem;color:var(--stone);text-align:center;
   margin-top:16px;letter-spacing:.04em;line-height:1.5}
 .modal__trust{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:14px;
   font-size:.7rem;color:var(--taupe)}
@@ -1190,7 +1190,7 @@ html:not(.js) .reveal{opacity:1;transform:none}
 
 <footer class="sg-foot">
   <h3 class="serif">Oper<span class="hl">(AI)</span>ting Live — Design System</h3>
-  <p>Single-file, GSAP-powered, mobile-first. Liquid glass surfaces, Fraunces editorial display, the brand's electric yellow elevated to an emissive gold. Cinematic modules adapted from the Cinematic Sites Agent Kit: mesh-gradient ambient, spotlight-border grids, odometer counters, kinetic marquee, magnetic CTAs, and cursor glow — all tuned to run on touch.</p>
+  <p>Single-file, mobile-first. Liquid glass surfaces, Playfair Display editorial display, the brand's electric yellow elevated to an emissive gold over a warm espresso-taupe ground. Cinematic modules adapted from the Cinematic Sites Agent Kit: mesh-gradient ambient, spotlight-border grids, odometer counters, kinetic marquee, magnetic CTAs, and cursor glow — all tuned to run on touch.</p>
   <p class="mono">Built to drop into Kajabi · One file · No build step</p>
 </footer>
 
