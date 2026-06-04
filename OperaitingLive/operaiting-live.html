@@ -514,6 +514,461 @@ footer .fsep{color:var(--taupe);opacity:.7}
 .bonus__v,.bonus--total .big,
 .speaker__stats b,
 .stack-card .ico{font-family:'Playfair Display',Georgia,serif}
+
+
+/* Kajabi hardening patch: color, buttons, background, FAQ, and sticky stack */
+:root{
+  --ink:#251B14;
+  --ink-2:#302218;
+  --ink-3:#3A2A1F;
+  --espresso:#211711;
+  --warmsmoke:#3C2B20;
+  --ash:#9A7656;
+}
+
+html,
+body{
+  background:#251B14 !important;
+}
+
+body{
+  color:var(--bone) !important;
+}
+
+.ambient{
+  background:
+    radial-gradient(38% 28% at 12% 10%, rgba(244,237,91,.065), transparent 60%),
+    radial-gradient(42% 34% at 88% 18%, rgba(154,118,86,.075), transparent 62%),
+    radial-gradient(50% 40% at 70% 62%, rgba(143,91,45,.07), transparent 60%),
+    radial-gradient(46% 38% at 22% 88%, rgba(92,54,30,.075), transparent 62%) !important;
+}
+
+.hero__mesh::after{
+  background:radial-gradient(circle,rgba(154,118,86,.14),transparent 60%) !important;
+}
+
+.hero__lines path{
+  stroke:#9A7656 !important;
+}
+
+.stack-card:nth-child(3){
+  background:radial-gradient(130% 100% at 100% 0,rgba(154,118,86,.11),transparent 55%),var(--ink-2) !important;
+}
+
+.bonus--03::before{
+  background:radial-gradient(120% 90% at 100% 100%,rgba(154,118,86,.11),transparent 55%) !important;
+}
+
+.closed__art .halo{
+  background:
+    radial-gradient(50% 60% at 50% 38%,rgba(154,118,86,.13),transparent 62%),
+    radial-gradient(40% 50% at 50% 40%,rgba(244,237,91,.08),transparent 60%) !important;
+}
+
+body .hero__mark,
+body .hero__title,
+body .section-h,
+body .stack-card h3,
+body .speaker__id h3,
+body .bonus h3,
+body .offer-card h3,
+body .fit h3,
+body .final__title,
+body .faq summary,
+body .faq summary span:not(.q-no):not(.q-tog){
+  color:var(--bone) !important;
+  -webkit-text-fill-color:var(--bone) !important;
+}
+
+body .eyebrow,
+body .stack__text .sub,
+body .faq summary .q-no{
+  color:var(--gold) !important;
+  -webkit-text-fill-color:var(--gold) !important;
+}
+
+body .eyebrow::before{
+  background:var(--gold) !important;
+}
+
+body .faq summary{
+  opacity:1 !important;
+  text-shadow:none !important;
+}
+
+body .faq .faq-a{
+  color:var(--linen) !important;
+  opacity:1 !important;
+}
+
+body .faq details{
+  border-color:var(--glass-stroke) !important;
+}
+
+body .faq summary .q-tog{
+  color:var(--gold) !important;
+  border-color:var(--glass-stroke-bright) !important;
+  -webkit-text-fill-color:var(--gold) !important;
+}
+
+body .hl-line,
+body .hero__mark .ai,
+body .nav__logo .ai,
+body footer .fmark .ai{
+  background:var(--grad-gold) !important;
+  -webkit-background-clip:text !important;
+  background-clip:text !important;
+  color:transparent !important;
+  -webkit-text-fill-color:transparent !important;
+}
+
+body a.btn.btn--primary,
+body .btn.btn--primary,
+body a.btn.btn--primary:link,
+body a.btn.btn--primary:visited,
+body a.btn.btn--primary:hover,
+body a.btn.btn--primary:focus,
+body a.btn.btn--primary:active{
+  background:var(--grad-gold) !important;
+  background-color:var(--gold) !important;
+  border:1px solid var(--gold-deep) !important;
+  outline-color:var(--gold-deep) !important;
+  color:#1A1604 !important;
+  -webkit-text-fill-color:#1A1604 !important;
+  box-shadow:var(--glow-gold) !important;
+  text-decoration:none !important;
+}
+
+body .btn.btn--primary *,
+body .btn.btn--primary svg,
+body .btn.btn--primary svg *{
+  color:#1A1604 !important;
+  -webkit-text-fill-color:#1A1604 !important;
+}
+
+body .btn.btn--primary svg,
+body .btn.btn--primary svg path,
+body .btn.btn--primary svg line,
+body .btn.btn--primary svg polyline{
+  stroke:#1A1604 !important;
+  fill:none !important;
+}
+
+body .btn.btn--primary:hover{
+  border-color:var(--gold) !important;
+}
+
+@media(min-width:920px){
+  body .stack,
+  body .stack__cards,
+  body .stack-card{
+    overflow:visible !important;
+    contain:none !important;
+  }
+
+  body .stack__text{
+    position:sticky !important;
+    top:130px !important;
+  }
+
+  body .stack-card{
+    position:sticky !important;
+    z-index:2;
+  }
+
+  body .stack-card:nth-child(1){top:120px !important;z-index:3}
+  body .stack-card:nth-child(2){top:142px !important;z-index:4}
+  body .stack-card:nth-child(3){top:164px !important;z-index:5}
+}
+
+
+
+/* Mobile vertical rhythm patch: keeps desktop spacing, tightens handheld sections. */
+@media(max-width:760px){
+  :root{
+    --gutter:clamp(18px,5vw,28px);
+    --sp-7:40px;
+    --sp-8:48px;
+    --sp-9:62px;
+    --sp-10:76px;
+  }
+
+  html{
+    scroll-padding-top:72px;
+  }
+
+  section{
+    padding-block:clamp(48px,12vw,64px) !important;
+  }
+
+  .hero{
+    min-height:auto !important;
+    padding-block:clamp(72px,16vw,92px) clamp(104px,22vw,128px) !important;
+  }
+
+  .hero__mark{
+    margin-bottom:10px !important;
+  }
+
+  .hero__sub{
+    margin-bottom:20px !important;
+  }
+
+  .hero__invite{
+    margin-top:18px !important;
+  }
+
+  .hero__scroll{
+    bottom:24px !important;
+  }
+
+  .hero__scroll i{
+    height:32px !important;
+  }
+
+  .section-h{
+    margin-top:10px !important;
+    margin-bottom:14px !important;
+  }
+
+  .lead{
+    line-height:1.52 !important;
+  }
+
+  .reframe__grid,
+  .stats,
+  .stack,
+  .compare,
+  .speaker-grid,
+  .bonus-grid,
+  .offer-card,
+  .fit-grid,
+  .note,
+  .faq{
+    margin-top:clamp(22px,6vw,32px) !important;
+  }
+
+  .stack__cards,
+  .bonus-grid,
+  .fit-grid,
+  .speaker-grid{
+    gap:16px !important;
+  }
+
+  .stack-card,
+  .speaker,
+  .bonus,
+  .offer-card,
+  .note{
+    padding:clamp(22px,6vw,28px) !important;
+  }
+
+  .pairnote{
+    margin-top:22px !important;
+    padding-top:18px !important;
+  }
+
+  .closed,
+  .final{
+    padding-block:clamp(54px,13vw,72px) !important;
+  }
+
+  .final .when-card{
+    margin-block:18px !important;
+  }
+
+  .faq summary{
+    padding:18px 0 !important;
+    gap:14px !important;
+  }
+
+  .faq .faq-a{
+    padding-bottom:20px !important;
+  }
+
+  footer{
+    padding-block:44px !important;
+  }
+}
+
+@media(max-width:480px){
+  :root{
+    --sp-7:34px;
+    --sp-8:42px;
+    --sp-9:54px;
+    --sp-10:66px;
+  }
+
+  section{
+    padding-block:clamp(40px,11vw,54px) !important;
+  }
+
+  .hero{
+    padding-block:64px 104px !important;
+  }
+
+  .closed,
+  .final{
+    padding-block:48px !important;
+  }
+
+  .reframe__grid,
+  .stats,
+  .stack,
+  .compare,
+  .speaker-grid,
+  .bonus-grid,
+  .offer-card,
+  .fit-grid,
+  .note,
+  .faq{
+    margin-top:22px !important;
+  }
+
+  .faq summary{
+    padding:16px 0 !important;
+  }
+}
+
+
+
+/* Comparison table spacing patch: keeps row dividers as a thin sliver. */
+body .compare__rows{
+  gap:1px !important;
+  row-gap:1px !important;
+  padding:0 !important;
+}
+
+body .compare__rows li{
+  gap:1px !important;
+  margin:0 !important;
+  padding:0 !important;
+  background:var(--glass-stroke) !important;
+}
+
+body .compare__rows li + li{
+  margin-top:0 !important;
+}
+
+body .compare__rows span{
+  margin:0 !important;
+  padding:11px 16px !important;
+  line-height:1.3 !important;
+}
+
+@media(max-width:760px){
+  body .compare__rows{
+    gap:1px !important;
+    row-gap:1px !important;
+  }
+
+  body .compare__rows li{
+    gap:1px !important;
+  }
+
+  body .compare__rows span{
+    padding:9px 13px !important;
+    font-size:.88rem !important;
+    line-height:1.28 !important;
+  }
+}
+
+@media(max-width:480px){
+  body .compare__rows span{
+    padding:8px 11px !important;
+  }
+}
+
+
+/* Keep Kajabi's native two-step popup readable; do not let landing-page heading hardening leak into it. */
+body [class*="two-step"] h4,
+body [class*="popup"] h4,
+body [class*="modal"] h4,
+body [id*="two-step"] h4,
+body [id*="popup"] h4,
+body [id*="modal"] h4 {
+  color:#111111 !important;
+  -webkit-text-fill-color:#111111 !important;
+}
+
+body [class*="two-step"] h4 span,
+body [class*="popup"] h4 span,
+body [class*="modal"] h4 span,
+body [id*="two-step"] h4 span,
+body [id*="popup"] h4 span,
+body [id*="modal"] h4 span {
+  color:#111111 !important;
+  -webkit-text-fill-color:#111111 !important;
+}
+
+
+/* Kajabi two-step popup bridge: keeps #two-step usable from custom HTML without breaking the close X. */
+#two-step.operai-two-step-open {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2147483000 !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: center !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  padding: clamp(8px, 3.5vh, 40px) 8px !important;
+  overflow-y: auto !important;
+  background: rgba(0,0,0,.82) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+#two-step.operai-two-step-open .modal__content {
+  position: relative !important;
+  z-index: 2147483001 !important;
+  width: min(1140px, calc(100vw - 16px)) !important;
+  max-height: none !important;
+  margin: 0 auto !important;
+  pointer-events: auto !important;
+}
+
+#two-step.operai-two-step-open .modal__body {
+  pointer-events: auto !important;
+}
+
+#two-step.operai-two-step-open .close-x {
+  position: absolute !important;
+  top: -22px !important;
+  right: -10px !important;
+  z-index: 2147483002 !important;
+  width: 44px !important;
+  height: 44px !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+}
+
+#two-step.operai-two-step-open .close-x__part {
+  background: #6b6b6b !important;
+}
+
+html.operai-modal-open,
+body.operai-modal-open {
+  overflow: hidden !important;
+}
+
+@media(max-width:760px){
+  #two-step.operai-two-step-open {
+    padding: 8px !important;
+  }
+
+  #two-step.operai-two-step-open .modal__content {
+    width: calc(100vw - 16px) !important;
+  }
+
+  #two-step.operai-two-step-open .close-x {
+    top: -10px !important;
+    right: -8px !important;
+  }
+}
+
+
 </style>
 </head>
 <body>
@@ -524,7 +979,7 @@ footer .fsep{color:var(--taupe);opacity:.7}
 <nav class="nav" id="nav" aria-label="Primary">
   <div class="nav__inner">
     <a class="nav__logo" href="#top">Oper<span class="ai">(AI)</span>ting<span class="nav__live">LIVE</span></a>
-    <a class="btn btn--primary nav__cta" data-magnetic href="https://www.unfazedfounder.com/operaitinglive#two-step">Reserve seat</a>
+    <a class="btn btn--primary nav__cta" data-magnetic href="#two-step" data-kajabi-two-step-trigger aria-haspopup="dialog" data-target="#two-step" data-popup="#two-step" data-operai-popup-trigger="two-step">Reserve seat</a>
   </div>
 </nav>
 
@@ -546,7 +1001,7 @@ footer .fsep{color:var(--taupe);opacity:.7}
       <div class="when-card__cell"><span class="when-card__k">Length</span><span class="when-card__v">60 min</span></div>
     </div>
     <div class="hero__cta reveal">
-      <a class="btn btn--primary" data-magnetic href="https://www.unfazedfounder.com/operaitinglive#two-step">Reserve your seat
+      <a class="btn btn--primary" data-magnetic href="#two-step" data-kajabi-two-step-trigger aria-haspopup="dialog" data-target="#two-step" data-popup="#two-step" data-operai-popup-trigger="two-step">Reserve your seat
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
     <p class="hero__invite reveal">By private invitation to operators we believe should be in the room.</p>
@@ -750,7 +1205,7 @@ footer .fsep{color:var(--taupe);opacity:.7}
         <li><span class="ok" aria-hidden="true"></span>60 minutes, live, with John &amp; Wessal</li>
         <li><span class="ok" aria-hidden="true"></span>A seat in a closed, no-replay room</li>
       </ul>
-      <a class="btn btn--primary btn--block" data-magnetic href="https://www.unfazedfounder.com/operaitinglive#two-step">Reserve your seat
+      <a class="btn btn--primary btn--block" data-magnetic href="#two-step" data-kajabi-two-step-trigger aria-haspopup="dialog" data-target="#two-step" data-popup="#two-step" data-operai-popup-trigger="two-step">Reserve your seat
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       <p class="offer-card__fine">Live only · No replay · No public recording</p>
     </div>
@@ -822,7 +1277,7 @@ footer .fsep{color:var(--taupe);opacity:.7}
       <div class="when-card__cell"><span class="when-card__k">Length</span><span class="when-card__v">60 min</span></div>
     </div>
     <p class="lead reveal" style="margin:8px auto 24px">We will email you the Zoom link the morning of the call. Complimentary registration — live only.</p>
-    <a class="btn btn--primary reveal" data-magnetic href="https://www.unfazedfounder.com/operaitinglive#two-step" style="margin-inline:auto">Reserve your seat
+    <a class="btn btn--primary reveal" data-magnetic href="#two-step" style="margin-inline:auto" data-kajabi-two-step-trigger aria-haspopup="dialog" data-target="#two-step" data-popup="#two-step" data-operai-popup-trigger="two-step">Reserve your seat
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     <p class="final__fine reveal">Live only · No replay · No public recording</p>
   </div>
@@ -960,5 +1415,239 @@ footer .fsep{color:var(--taupe);opacity:.7}
   }
 })();
 </script>
+
+<script>
+(function(){
+  "use strict";
+
+  function makeStickyStackKajabiSafe(){
+    var stack = document.querySelector('.stack');
+    if(!stack){ return; }
+
+    var section = stack.closest('section');
+    if(section){ section.classList.add('kajabi-sticky-stack-section'); }
+
+    var node = stack.parentElement;
+    while(node && node !== document.body && node !== document.documentElement){
+      var styles = window.getComputedStyle(node);
+      var overflowValue = [
+        styles.overflow,
+        styles.overflowX,
+        styles.overflowY
+      ].join(' ');
+
+      if(/hidden|clip|auto|scroll/.test(overflowValue)){
+        node.style.setProperty('overflow', 'visible', 'important');
+        node.style.setProperty('overflow-x', 'visible', 'important');
+        node.style.setProperty('overflow-y', 'visible', 'important');
+      }
+
+      if(styles.contain && styles.contain !== 'none'){
+        node.style.setProperty('contain', 'none', 'important');
+      }
+
+      if(styles.transform && styles.transform !== 'none'){
+        node.style.setProperty('transform', 'none', 'important');
+      }
+
+      node = node.parentElement;
+    }
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', makeStickyStackKajabiSafe);
+  } else {
+    makeStickyStackKajabiSafe();
+  }
+
+  window.addEventListener('load', makeStickyStackKajabiSafe);
+})();
+</script>
+
+
+
+<script>
+(function(){
+  "use strict";
+
+  var MODAL_ID = "two-step";
+  var MODAL_HASH = "#two-step";
+  var OPEN_CLASS = "operai-two-step-open";
+  var BODY_OPEN_CLASS = "operai-modal-open";
+
+  function getModal(){
+    return document.getElementById(MODAL_ID);
+  }
+
+  function hasTwoStepHash(){
+    return window.location.hash === MODAL_HASH;
+  }
+
+  function setHash(){
+    if(hasTwoStepHash()){ return; }
+
+    if(window.history && window.history.pushState){
+      window.history.pushState(null, "", MODAL_HASH);
+      return;
+    }
+
+    window.location.hash = MODAL_HASH;
+  }
+
+  function clearHash(){
+    if(!hasTwoStepHash()){ return; }
+
+    var cleanUrl = window.location.pathname + window.location.search;
+
+    if(window.history && window.history.replaceState){
+      window.history.replaceState(null, "", cleanUrl);
+      return;
+    }
+
+    window.location.hash = "";
+  }
+
+  function isTwoStepTrigger(target){
+    if(!target || !target.closest){ return null; }
+
+    return target.closest([
+      'a[href="#two-step"]',
+      'a[href$="#two-step"]',
+      '[data-kajabi-two-step-trigger]',
+      '[data-operai-popup-trigger="two-step"]',
+      '[data-target="#two-step"]',
+      '[data-popup="#two-step"]'
+    ].join(","));
+  }
+
+  function isTwoStepClose(target){
+    if(!target || !target.closest){ return null; }
+
+    return target.closest([
+      "#two-step .close-x",
+      "#two-step [data-dismiss='modal']",
+      '#two-step [data-dismiss="modal"]',
+      "#two-step [data-close]",
+      "#two-step [data-modal-close]",
+      "#two-step [aria-label='Close']",
+      '#two-step [aria-label="Close"]',
+      "#two-step .modal__close",
+      "#two-step .modal-close",
+      "#two-step .popup__close",
+      "#two-step .close",
+      "#two-step .close-modal",
+      "#two-step .mfp-close"
+    ].join(","));
+  }
+
+  function openTwoStep(shouldSetHash){
+    var modal = getModal();
+    if(!modal){ return false; }
+
+    modal.classList.add(OPEN_CLASS, "show", "in", "is-open");
+    modal.removeAttribute("aria-hidden");
+    modal.setAttribute("aria-modal", "true");
+    modal.setAttribute("role", "dialog");
+    modal.style.setProperty("display", "flex", "important");
+    modal.style.setProperty("visibility", "visible", "important");
+    modal.style.setProperty("opacity", "1", "important");
+    modal.style.setProperty("pointer-events", "auto", "important");
+
+    document.documentElement.classList.add(BODY_OPEN_CLASS);
+    document.body.classList.add(BODY_OPEN_CLASS);
+
+    if(shouldSetHash !== false){
+      setHash();
+    }
+
+    return true;
+  }
+
+  function closeTwoStep(shouldClearHash){
+    var modal = getModal();
+
+    if(modal){
+      modal.classList.remove(OPEN_CLASS, "show", "in", "is-open");
+      modal.setAttribute("aria-hidden", "true");
+      modal.removeAttribute("aria-modal");
+      modal.removeAttribute("role");
+      modal.style.removeProperty("display");
+      modal.style.removeProperty("visibility");
+      modal.style.removeProperty("opacity");
+      modal.style.removeProperty("pointer-events");
+    }
+
+    document.documentElement.classList.remove(BODY_OPEN_CLASS);
+    document.body.classList.remove(BODY_OPEN_CLASS);
+
+    if(shouldClearHash !== false){
+      clearHash();
+    }
+  }
+
+  function openFromHashWhenReady(){
+    if(!hasTwoStepHash()){ return; }
+
+    var attempts = 0;
+    var timer = window.setInterval(function(){
+      attempts += 1;
+
+      if(openTwoStep(false) || attempts >= 60){
+        window.clearInterval(timer);
+      }
+    }, 100);
+  }
+
+  document.addEventListener("click", function(event){
+    var trigger = isTwoStepTrigger(event.target);
+
+    if(trigger && !trigger.closest("#two-step")){
+      event.preventDefault();
+      event.stopPropagation();
+      openTwoStep(true);
+      return;
+    }
+
+    if(event.target === getModal()){
+      event.preventDefault();
+      event.stopPropagation();
+      closeTwoStep(true);
+    }
+  }, true);
+
+  document.addEventListener("click", function(event){
+    var closeButton = isTwoStepClose(event.target);
+
+    if(closeButton){
+      event.preventDefault();
+      event.stopPropagation();
+      closeTwoStep(true);
+    }
+  }, true);
+
+  document.addEventListener("keyup", function(event){
+    if(event.key === "Escape"){
+      closeTwoStep(true);
+    }
+  });
+
+  window.addEventListener("hashchange", function(){
+    if(hasTwoStepHash()){
+      openTwoStep(false);
+    } else {
+      closeTwoStep(false);
+    }
+  });
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", openFromHashWhenReady);
+  } else {
+    openFromHashWhenReady();
+  }
+
+  window.addEventListener("load", openFromHashWhenReady);
+})();
+</script>
+
 </body>
 </html>
