@@ -108,12 +108,10 @@ section{position:relative;padding-block:var(--sp-9)}
 
 .nav{position:sticky;top:0;z-index:50;border-bottom:1px solid transparent;transition:background var(--t-med),border-color var(--t-med)}
 .nav.scrolled{background:rgba(34,26,19,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom-color:var(--glass-stroke)}
-.nav__inner{display:flex;align-items:center;justify-content:space-between;gap:14px;max-width:var(--wrap);margin-inline:auto;padding:14px var(--gutter)}
+.nav__inner{display:flex;align-items:center;justify-content:center;gap:14px;max-width:var(--wrap);margin-inline:auto;padding:14px var(--gutter)}
 .nav__logo{font-family:'Playfair Display',serif;font-weight:700;font-size:1.12rem;letter-spacing:.04em;text-transform:uppercase;display:inline-flex;align-items:center;gap:4px}
 .nav__logo .ai{background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;color:transparent}
 .nav__live{font-family:'Inter',sans-serif;font-size:.56rem;letter-spacing:.2em;color:var(--taupe);background:var(--glass-fill);border:1px solid var(--glass-stroke);padding:4px 8px;border-radius:6px;align-self:center;margin-left:6px}
-.nav__back{font-family:'Inter',sans-serif;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--taupe);transition:color var(--t-fast)}
-.nav__back:hover{color:var(--gold)}
 
 .hero{position:relative;min-height:88svh;display:flex;align-items:center;overflow:hidden;padding-block:var(--sp-9)}
 .hero__mesh{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
@@ -228,7 +226,6 @@ footer .fsep{color:var(--taupe);opacity:.7}
 <nav class="nav" id="nav" aria-label="Primary">
   <div class="nav__inner">
     <a class="nav__logo" href="operaiting-live.html">Oper<span class="ai">(AI)</span>ting<span class="nav__live">LIVE</span></a>
-    <a class="nav__back" href="operaiting-live.html">Event details</a>
   </div>
 </nav>
 
