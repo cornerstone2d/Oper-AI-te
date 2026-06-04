@@ -217,6 +217,27 @@ footer .fsep{color:var(--taupe);opacity:.7}
 @media(max-width:560px){footer .fline--people .fperson{display:block}footer .fline--people .fsep{display:none}}
 
 @media(min-width:760px){.section-h{font-size:var(--fs-h2)}}
+/* Kajabi themes can override bare h1/h2/h3 colors, so lock page headings. */
+body h1,
+body h2,
+body h3,
+body h4,
+body .hero__title,
+body .section-h,
+body .step h3,
+body .noreplay h3 {
+  color: var(--bone) !important;
+}
+
+/* Keep intentional gradient text from being forced blue by Kajabi. */
+body .hl-line {
+  background: var(--grad-gold);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
 </style>
 </head>
 <body>
