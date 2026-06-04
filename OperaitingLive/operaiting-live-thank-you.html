@@ -71,7 +71,8 @@ a{color:inherit;text-decoration:none}
 @media (hover:hover){#cursorGlow{opacity:1}}
 
 .wrap{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter);position:relative;z-index:3}
-section{position:relative;padding-block:var(--sp-9)}
+section{position:relative;padding-block:var(--sp-7)}
+@media(max-width:600px){section{padding-block:var(--sp-6)}}
 .eyebrow{font-family:'Inter',sans-serif;font-size:var(--fs-label);font-weight:600;letter-spacing:.22em;
   text-transform:uppercase;color:var(--gold);display:inline-flex;align-items:center;gap:8px}
 .eyebrow::before{content:"";width:22px;height:1px;background:var(--gold);opacity:.7}
@@ -113,7 +114,7 @@ section{position:relative;padding-block:var(--sp-9)}
 .nav__logo .ai{background:var(--grad-gold);-webkit-background-clip:text;background-clip:text;color:transparent}
 .nav__live{font-family:'Inter',sans-serif;font-size:.56rem;letter-spacing:.2em;color:var(--taupe);background:var(--glass-fill);border:1px solid var(--glass-stroke);padding:4px 8px;border-radius:6px;align-self:center;margin-left:6px}
 
-.hero{position:relative;min-height:88svh;display:flex;align-items:center;overflow:hidden;padding-block:var(--sp-9)}
+.hero{position:relative;min-height:auto;display:flex;align-items:center;overflow:hidden;padding-block:clamp(40px,7vh,72px)}
 .hero__mesh{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
 .hero__mesh::before,.hero__mesh::after{content:"";position:absolute;border-radius:50%;filter:blur(70px);opacity:.6}
 .hero__mesh::before{width:60vw;height:60vw;left:-10vw;top:-12vw;background:radial-gradient(circle,rgba(244,237,91,.18),transparent 60%);animation:float1 22s var(--ease-cine) infinite alternate}
@@ -169,6 +170,24 @@ section{position:relative;padding-block:var(--sp-9)}
 .step p b{color:var(--bone);font-weight:600}
 .step .from{margin-top:auto;font-family:'Inter',sans-serif;font-size:.66rem;letter-spacing:.06em;color:var(--champagne);
   border:1px solid var(--glass-stroke);border-radius:var(--r-pill);padding:7px 13px;align-self:flex-start;position:relative}
+.step--key{border-color:var(--glass-stroke-bright);background:radial-gradient(130% 100% at 50% 0,rgba(244,237,91,.10),transparent 60%),var(--glass-fill)}
+.step__tag{position:absolute;top:18px;right:18px;font-family:'Inter',sans-serif;font-size:.56rem;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;color:#1A1604;background:var(--grad-gold);padding:5px 10px;border-radius:var(--r-pill);z-index:2}
+
+.hero-next{display:inline-flex;align-items:center;gap:10px;margin-top:22px;
+  font-family:'Inter',sans-serif;font-size:clamp(.8rem,2.4vw,.92rem);font-weight:700;letter-spacing:.04em;
+  color:var(--gold);background:rgba(244,237,91,.08);border:1px solid var(--glass-stroke-bright);
+  padding:12px 20px;border-radius:var(--r-pill);box-shadow:0 0 0 4px rgba(244,237,91,.06);
+  transition:background var(--t-fast),transform var(--t-fast)}
+.hero-next:hover{background:rgba(244,237,91,.14);transform:translateY(-1px)}
+.hero-next svg{width:16px;height:16px;animation:nudge 1.6s var(--ease-cine) infinite}
+@keyframes nudge{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+@media (prefers-reduced-motion:reduce){.hero-next svg{animation:none}}
+
+.action-kicker{display:inline-block;font-family:'Inter',sans-serif;font-weight:700;
+  font-size:clamp(1.05rem,3.4vw,1.5rem);letter-spacing:.03em;text-transform:uppercase;line-height:1.15;
+  color:var(--gold);text-shadow:0 0 26px rgba(244,237,91,.28)}
+.next .section-h{font-size:clamp(1.35rem,4vw,2rem);margin:8px 0 14px}
 
 .recap{padding:34px;position:relative;max-width:620px;margin:var(--sp-6) auto 0}
 .recap__halo{position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(120% 80% at 50% 0,rgba(244,237,91,.18),transparent 55%)}
@@ -250,14 +269,16 @@ footer .fsep{color:var(--taupe);opacity:.7}
       <div class="when-card__cell"><span class="when-card__k">Time</span><span class="when-card__v">1:00 PM ET<span class="pipe">|</span>10:00 AM PT</span></div>
       <div class="when-card__cell"><span class="when-card__k">Length</span><span class="when-card__v">60 min</span></div>
     </div>
+    <a class="hero-next" href="#next">Do these 3 steps now to lock in your seat
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
   </div>
 </header>
 
-<section>
+<section class="next" id="next">
   <div class="wrap">
-    <span class="eyebrow reveal">Do this right now, before you close this tab</span>
-    <h2 class="section-h reveal">Three steps. Two minutes. Done.</h2>
-    <p class="lead reveal">Take these now so the Zoom link is one tap away on June 16.</p>
+    <span class="action-kicker reveal">Do this now — before June 16</span>
+    <h2 class="section-h reveal">Three steps. Two minutes. Miss them and you miss the room.</h2>
+    <p class="lead reveal">There is no replay. Take these now so the Zoom link is one tap away on the day.</p>
     <div class="steps">
       <article class="step glass reveal">
         <div class="step__glow" aria-hidden="true"></div>
@@ -266,11 +287,12 @@ footer .fsep{color:var(--taupe);opacity:.7}
         <p>A confirmation email is already on its way with your Zoom link, meeting ID, and passcode. Save it to the top of your inbox.</p>
         <span class="from">From: hello@unfazedfounder.com</span>
       </article>
-      <article class="step glass reveal">
+      <article class="step glass glass--bright step--key reveal">
+        <span class="step__tag">Most important</span>
         <div class="step__glow" aria-hidden="true"></div>
         <div class="ico">02</div>
-        <h3>Add June 16 to your calendar</h3>
-        <p>If you use <b>Gmail or Google</b>, an automated calendar invite has already been sent to you. Accept it now. If you use another calendar, block <b>Tuesday, June 16, 1:00pm to 2:00pm Eastern</b> and paste the Zoom link from your confirmation email into the event.</p>
+        <h3>Accept your calendar invite</h3>
+        <p>If you use <b>Gmail or Google</b>, an automated calendar invite is already in your inbox — <b>accept it now</b>. On any other calendar, block <b>Tuesday, June 16, 1:00–2:00pm Eastern</b> and paste in the Zoom link. This is the single biggest thing that gets you in the room on the day.</p>
       </article>
       <article class="step glass reveal">
         <div class="step__glow" aria-hidden="true"></div>
@@ -335,7 +357,7 @@ footer .fsep{color:var(--taupe);opacity:.7}
   <div class="wrap">
     <div class="fmark">Oper<span class="ai">(AI)</span>ting Live</div>
     <div class="fline fline--people"><span class="fperson">John Brewton · Operating &amp; 6AEP</span><span class="fsep"> · </span><span class="fperson">Wessal Khader · Unfazed Founder&trade;</span></div>
-    <div class="fcopy">&copy; 2026 The Faceless Founder LLC. Operating Live is a joint program of The Faceless Founder LLC and 6A East Partners, LLC. All rights reserved.</div>
+    <div class="fcopy">&copy; 2026 The Faceless Founder LLC. Oper(AI)ting Live is a joint program of The Faceless Founder LLC and 6A East Partners, LLC. All rights reserved.</div>
   </div>
 </footer>
 
